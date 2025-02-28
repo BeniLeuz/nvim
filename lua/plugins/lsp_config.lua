@@ -61,6 +61,9 @@ return {
       lspconfig.html.setup {
         capabilities = capabilities,
         filetypes = { 'html', 'md' },
+        settings = {
+          html = { format = { indentInnerHtml = true } }
+        }
       }
 
       lspconfig.hls.setup {
