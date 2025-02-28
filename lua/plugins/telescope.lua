@@ -18,8 +18,6 @@ return {
         file_ignore_patterns = { "^.git/" },
         mappings = {
           i = {
-            ['<C-u>'] = false,
-            ['<C-d>'] = false,
           },
           n = {
             ['<C-c>'] = actions.close,
