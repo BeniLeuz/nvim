@@ -72,6 +72,9 @@ return {
 
       lspconfig.clangd.setup {
         capabilities = capabilities,
+        init_options = {
+          fallbackFlags = { '--std=c++20' }
+        }
       }
 
       lspconfig.ruby_ls.setup {
