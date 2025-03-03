@@ -1,42 +1,5 @@
 return {
-
-<<<<<<< Updated upstream
   {
-    'williamboman/mason.nvim',
-    config = function()
-      require('mason').setup()
-    end,
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    config = function()
-      require('mason-lspconfig').setup {
-        ensure_installed = {
-          'lua_ls',
-          'rubocop',
-          'ruby_ls',
-          'tsserver',
-          'cssls',
-          'solargraph',
-          'clangd',
-          'html',
-          'jdtls',
-          'omnisharp',
-          'gopls',
-          'hls',
-          'groovyls',
-        },
-      }
-    end,
-  },
-  {
-    'neovim/nvim-lspconfig',
-    config = function()
-      local lspconfig = require 'lspconfig'
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-=======
-	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
@@ -71,17 +34,15 @@ return {
 			local lspconfig = require("lspconfig")
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
->>>>>>> Stashed changes
 
       lspconfig.lua_ls.setup {
         capabilities = capabilities,
       }
 
-<<<<<<< Updated upstream
       lspconfig.groovyls.setup {
         cmd = { "groovy-language-server" },
       }
-=======
+
 			lspconfig.intelephense.setup({
 				capabilities = capabilities,
 			})
@@ -89,7 +50,6 @@ return {
 			lspconfig.groovyls.setup({
 				cmd = { "groovy-language-server" },
 			})
->>>>>>> Stashed changes
 
       lspconfig.gopls.setup {
         capabilities = capabilities
