@@ -89,7 +89,7 @@ return {
         }
       }
 
-      lspconfig.ruby_ls.setup {
+      lspconfig.ruby_lsp.setup {
         capabilities = capabilities,
         filetypes = { 'ruby' },
       }
@@ -108,7 +108,7 @@ return {
       --        capabilities = capabilities,
       --      }
 
-      lspconfig.tsserver.setup {
+      lspconfig.ts_ls.setup {
         capabilities = capabilities,
       }
 
