@@ -22,7 +22,6 @@ return {
 					"omnisharp",
 					"gopls",
 					"hls",
-					"groovyls",
           "intelephense",
 				},
 			})
@@ -37,10 +36,6 @@ return {
 
       lspconfig.lua_ls.setup {
         capabilities = capabilities,
-      }
-
-      lspconfig.groovyls.setup {
-        cmd = { "groovy-language-server" },
       }
 
 			lspconfig.intelephense.setup({
