@@ -12,8 +12,8 @@ return {
 				ensure_installed = {
 					"lua_ls",
 					"rubocop",
-					"ruby_ls",
-					"tsserver",
+					"ruby_lsp",
+					"ts_ls",
 					"cssls",
 					"solargraph",
 					"clangd",
