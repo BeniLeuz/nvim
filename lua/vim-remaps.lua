@@ -24,9 +24,8 @@ vim.keymap.set( 'n' , '<leader>y', "\"+y")
 vim.keymap.set( 'v' , '<leader>y', "\"+y")
 
 
--- make terminal mode exitable by using ctrl z this might interfere with the standard ctrl z usage of terminal
--- but im just gonna try it out for now and see it it works nice since ctrl z is easily rememberable.
-vim.keymap.set('t', '<C-z>', '<C-\\><C-n>')
+-- go out of terminal mode easy access
+vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 
 
 -- remap esc to ctrl-c
