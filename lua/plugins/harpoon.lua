@@ -1,7 +1,7 @@
 return {
   "ThePrimeagen/harpoon",
   branch = "harpoon2",
-  dependencies = {"nvim-lua/plenary.nvim"},
+  dependencies = { "nvim-lua/plenary.nvim" },
   config = function()
     local harpoon = require("harpoon")
 
@@ -9,8 +9,9 @@ return {
     harpoon:setup({
       settings = {
         save_on_toggle = true,
-        sync_on_ui_close = true
-      }
+        sync_on_ui_close = true,
+        select_with_nil = true
+      },
     })
 
     vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
@@ -20,7 +21,62 @@ return {
     vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
     vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
     vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
-    vim.keymap.set("n", "<C-n>", function() harpoon:list():select(5) end)
-    vim.keymap.set("n", "<C-m>", function() harpoon:list():select(6) end)
+
+    -- custom list for terms
+    ---@type HarpoonList
+    local term_list = harpoon:list("terms") -- note the : instead of .
+
+    local function create_terminal()
+      vim.cmd("terminal")
+      local buf_id = vim.api.nvim_get_current_buf()
+      return vim.api.nvim_buf_get_name(buf_id)
+    end
+
+    ---@param index number: The index of the terminal to select.
+    local function select_term(index)
+      if index > term_list:length() then
+        create_terminal()
+        -- just append the newly open terminal
+        term_list:add() -- using add() as append() is depricated
+      else
+        term_list:select(index)
+      end
+    end
+
+    local function remove_closed_terms()
+      for _, term in ipairs(term_list.items) do
+        local bufnr = vim.fn.bufnr(term.value)
+        if bufnr == -1 then
+          term_list:remove(term)
+        end
+        -- can get id here with nvim_buf_get_name because buffer is already deleted
+        --term_list:remove(term_name)
+        --
+      end
+    end
+
+    -- Autocommand to remove closed terminal from the list
+    -- "VimEnter" cleans terminals that were saved when you closed vim for the last time but were not removed
+    vim.api.nvim_create_autocmd({ "TermClose", "VimEnter" }, {
+      pattern = "*",
+      callback = remove_closed_terms,
+    })
+
+    -- This is needed because closing term with bd! won't trigger "TermClose"
+    vim.api.nvim_create_autocmd({ "BufDelete", "BufUnload" }, {
+      pattern = "term://*",
+      callback = remove_closed_terms,
+    })
+
+
+    vim.keymap.set("n", "<C-n>", function()
+      select_term(1)
+    end)
+
+    vim.keymap.set("n", "<C-m>", function()
+      select_term(2)
+    end)
+
+    -- vim.keymap.set("n", "<C-f>", function() harpoon.ui:toggle_quick_menu(term_list) end)
   end
 }
