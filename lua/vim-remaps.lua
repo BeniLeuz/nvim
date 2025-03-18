@@ -27,7 +27,6 @@ vim.keymap.set( 'v' , '<leader>y', "\"+y")
 -- go out of terminal mode easy access
 vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 
-
 -- remap esc to ctrl-c
 vim.keymap.set( 'i' , '<C-c>', "<Esc>")
 -- Literal search and replace

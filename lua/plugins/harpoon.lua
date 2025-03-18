@@ -77,6 +77,6 @@ return {
       select_term(2)
     end)
 
-    -- vim.keymap.set("n", "<C-f>", function() harpoon.ui:toggle_quick_menu(term_list) end)
+    vim.keymap.set("n", "<C-g>", function() harpoon.ui:toggle_quick_menu(term_list) end)
   end
 }
