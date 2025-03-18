@@ -17,10 +17,10 @@ return {
     vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
     vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
     vim.keymap.set("n", "<C-c>", function() harpoon.ui:close_menu() end)
-    vim.keymap.set("n", "<C-h>", function() harpoon:list():select(1) end)
-    vim.keymap.set("n", "<C-j>", function() harpoon:list():select(2) end)
-    vim.keymap.set("n", "<C-k>", function() harpoon:list():select(3) end)
-    vim.keymap.set("n", "<C-l>", function() harpoon:list():select(4) end)
+    vim.keymap.set({ "n", "t" }, "<C-h>", function() harpoon:list():select(1) end)
+    vim.keymap.set({ "n", "t" }, "<C-j>", function() harpoon:list():select(2) end)
+    vim.keymap.set({ "n", "t" }, "<C-k>", function() harpoon:list():select(3) end)
+    vim.keymap.set({ "n", "t" }, "<C-l>", function() harpoon:list():select(4) end)
 
     -- custom list for terms
     ---@type HarpoonList
@@ -36,8 +36,7 @@ return {
     local function select_term(index)
       if index > term_list:length() then
         create_terminal()
-        -- just append the newly open terminal
-        term_list:add() -- using add() as append() is depricated
+        term_list:add()
       else
         term_list:select(index)
       end
@@ -69,11 +68,11 @@ return {
     })
 
 
-    vim.keymap.set("n", "<C-n>", function()
+    vim.keymap.set({ "n" }, "<C-n>", function()
       select_term(1)
     end)
 
-    vim.keymap.set("n", "<C-m>", function()
+    vim.keymap.set({ "n" }, "<C-m>", function()
       select_term(2)
     end)
 
