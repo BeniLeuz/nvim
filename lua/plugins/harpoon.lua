@@ -66,12 +66,11 @@ return {
       callback = remove_closed_terms,
     })
 
-
-    vim.keymap.set({ "n" }, "<C-n>", function()
+    vim.keymap.set({ "n", "t" }, "<C-b>", function()
       select_term(1)
     end)
 
-    vim.keymap.set({ "n" }, "<C-m>", function()
+    vim.keymap.set({ "n", "t" }, "<C-n>", function()
       select_term(2)
     end)
 
