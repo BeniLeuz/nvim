@@ -66,6 +66,13 @@ return {
       callback = remove_closed_terms,
     })
 
+    -- vim.api.nvim_create_autocmd({ "BufEnter", "TermOpen" }, {
+    --   pattern = "term://*",
+    --   callback = function()
+    --     vim.cmd(':startinsert')
+    --   end,
+    -- })
+
     vim.keymap.set({ "n", "t" }, "<C-b>", function()
       select_term(1)
     end)
