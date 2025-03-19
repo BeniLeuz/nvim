@@ -1,5 +1,5 @@
 -- vim remaps
-vim.keymap.set( 'n' , '<Leader>pv', vim.cmd.Ex)
+vim.keymap.set( 'n', '<Leader>pv', vim.cmd.Ex)
 
 
 -- moving lines in visual mode, nice
@@ -29,9 +29,9 @@ vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 
 -- remap esc to ctrl-c
 vim.keymap.set( 'i' , '<C-c>', "<Esc>")
+vim.keymap.set( 'v' , '<C-c>', "<Esc>")
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
-
 
 -- showing up diagnostics with newlines in a floating window
 vim.keymap.set({"n"}, "<leader>cd", vim.diagnostic.open_float)
