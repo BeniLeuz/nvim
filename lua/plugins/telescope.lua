@@ -17,8 +17,14 @@ return {
         file_ignore_patterns = { "^.git/" },
         mappings = {
           i = {
+            -- remove these ones if i wanna use C-N C-P anyway and wanna be able to 
+            -- scroll the search window with them standard btw
+            ['<M-j>'] = actions.move_selection_next,
+            ['<M-k>'] = actions.move_selection_previous,
           },
           n = {
+            ['<M-j>'] = actions.move_selection_next,
+            ['<M-k>'] = actions.move_selection_previous,
             ['<C-c>'] = actions.close,
             ['q'] = actions.close,
           }
