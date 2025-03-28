@@ -27,9 +27,11 @@ vim.keymap.set( 'v' , '<leader>y', "\"+y")
 -- go out of terminal mode easy access
 vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 
--- remap esc to ctrl-c
-vim.keymap.set( 'i' , '<C-c>', "<Esc>")
-vim.keymap.set( 'v' , '<C-c>', "<Esc>")
+-- remap esc to ctrl-c enable it again when necessary but in reality i want to have q: C-c behavior.
+-- vim.keymap.set( 'i' , '<C-c>', "<Esc>")
+-- vim.keymap.set( 'v' , '<C-c>', "<Esc>")
+
+
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
