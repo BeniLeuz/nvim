@@ -10,14 +10,15 @@ local var_color = { fg = "#729FCF" }  -- Same color as types, but without bold
 -- Link all type-related syntax groups to the same highlight
 local type_groups = {
   "Type", "StorageClass", "Structure", "Typedef",
-  "TSType", "TSTypeBuiltin", "TSTypeDefinition", 
+  "TSType", "TSTypeBuiltin", "TSTypeDefinition",
   "TSTypeQualifier", "TSNamespace"
 }
 
 -- Variable-related groups
 local var_groups = {
-  "Identifier", "TSVariable", "TSVariableBuiltin", 
-  "TSParameter", "TSProperty", "TSField"
+  "Identifier", "TSVariable", "TSVariableBuiltin",
+  "TSParameter", "TSProperty", "TSField", "TSLocal",
+  "TSIdentifier", "Variable"
 }
 
 -- Apply type color to all type groups

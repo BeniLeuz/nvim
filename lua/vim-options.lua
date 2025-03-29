@@ -22,8 +22,7 @@ vim.o.completeopt = 'menuone,noselect'
 -- needed for treesitter to highlight properly
 vim.o.termguicolors = true
 
-
 -- add when ready without tooltips
--- vim.g.netrw_banner = 0
+vim.g.netrw_banner = 0
 
 
