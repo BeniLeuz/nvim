@@ -14,6 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("vim-options")
 require("vim-remaps")
-require("lazy").setup("plugins")
-
-
+require("theme")
+require("lazy").setup("plugins", {
+  change_detection = { notify = false }
+})
