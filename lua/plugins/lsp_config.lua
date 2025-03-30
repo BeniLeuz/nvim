@@ -56,6 +56,7 @@ return {
         capabilities = capabilities,
         init_options = {
           fallbackFlags = {
+            "-std=c++23",
             "-I../include/",
             "-I./include/",
           }
