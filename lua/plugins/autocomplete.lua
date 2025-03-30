@@ -3,13 +3,18 @@ return {
   -- optional: provides snippets for the snippet source
   dependencies = { 'rafamadriz/friendly-snippets' },
   tag = 'v1.0.0',
-
-  ---@module 'blink.cmp'
-  ---@type blink.cmp.Config
   opts = {
-    keymap = { 
+    keymap = {
       preset = 'enter',
-      ["<Tab>"] = { 'select_next' },
+      ['<Tab>'] = {
+        function(cmp)
+          if cmp.snippet_active() then
+            return cmp.snippet_forward()
+          else
+            return cmp.select_next()
+          end
+        end
+      },
     },
     completion = {
       documentation = { auto_show = false },
@@ -26,7 +31,8 @@ return {
         snippets = {
           opts = {
             extended_filetypes = {
-              svelte = { "html" }
+              svelte = { "html" },
+              eruby = { "html" }
             },
             ignored_filetypes = {},
             get_filetype = function(context)
