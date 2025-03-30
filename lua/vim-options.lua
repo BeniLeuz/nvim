@@ -27,4 +27,3 @@ vim.o.termguicolors = true
 -- add when ready without tooltips
 vim.g.netrw_banner = 0
 
-
