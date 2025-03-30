@@ -16,6 +16,7 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.scrolloff = 8
 vim.o.wrap = false
+vim.o.fillchars='eob: '
 
 -- makes so enter does not autoselect autocomplete
 vim.o.completeopt = 'menuone,noselect'
