@@ -16,7 +16,6 @@ return {
         'fallback'
       },
     },
-
     completion = {
       trigger = {
         show_in_snippet = false,
@@ -32,7 +31,6 @@ return {
     },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
-
       providers = {
         snippets = {
           opts = {

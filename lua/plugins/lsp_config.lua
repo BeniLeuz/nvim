@@ -48,49 +48,6 @@ return {
             }
           }
         end,
-        -- old configs if i need again
-        --
-        --
-        -- lspconfig.lua_ls.setup {
-        --   capabilities = capabilities,
-        -- }
-        --
-        -- lspconfig.intelephense.setup({
-        --   capabilities = capabilities,
-        -- })
-        --
-        --
-        -- lspconfig.hls.setup {
-        --   capabilities = capabilities,
-        -- }
-        --
-        --
-        -- lspconfig.ruby_lsp.setup {
-        --   capabilities = capabilities,
-        --   filetypes = { 'ruby' },
-        -- }
-        --
-        -- lspconfig.solargraph.setup {
-        --   capabilities = capabilities,
-        --   filetypes = { 'ruby', 'eruby' },
-        -- }
-        --
-        -- lspconfig.jdtls.setup {
-        --   capabilities = capabilities,
-        -- }
-        --
-        -- -- not actually needed cause solargraph crazy fr
-        -- --      lspconfig.rubocop.setup {
-        -- --        capabilities = capabilities,
-        -- --      }
-        --
-        -- lspconfig.ts_ls.setup {
-        --   capabilities = capabilities,
-        -- }
-        --
-        -- lspconfig.cssls.setup {
-        --   capabilities = capabilities,
-        -- }
       })
 
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})

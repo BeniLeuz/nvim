@@ -1,5 +1,3 @@
--- nice colorscheme legit best one honestly with adjustments
-vim.cmd('colorscheme default')
 
 local type_color = { fg = "#ff9e64" }
 local var_color = { fg = "#73daca" }
