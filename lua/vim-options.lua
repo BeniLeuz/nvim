@@ -19,8 +19,6 @@ vim.o.wrap = false
 vim.o.fillchars='eob: '
 vim.o.winborder = 'rounded'
 
--- makes so enter does not autoselect autocomplete
-vim.o.completeopt = 'menuone,noselect'
 -- needed for treesitter to highlight properly
 vim.o.termguicolors = true
 
