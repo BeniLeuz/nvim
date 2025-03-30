@@ -1,6 +1,4 @@
-return {
-  'saghen/blink.cmp',
-  -- optional: provides snippets for the snippet source
+return { 'saghen/blink.cmp', -- optional: provides snippets for the snippet source
   dependencies = { 'rafamadriz/friendly-snippets' },
   tag = 'v1.0.0',
   opts = {
@@ -17,7 +15,9 @@ return {
       },
     },
     completion = {
-      documentation = { auto_show = false },
+      documentation = {
+        auto_show = true,
+      },
       list = {
         selection = {
           preselect = false

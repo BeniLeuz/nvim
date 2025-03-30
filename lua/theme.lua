@@ -27,6 +27,13 @@ vim.api.nvim_set_hl(0, "Keyword", { fg = "#FFCF70" })
 vim.api.nvim_set_hl(0, "Function", { fg = "#729FCF" })
 vim.api.nvim_set_hl(0, "String", { fg = "#B2DC7E" })
 
+-- make it all black lmao
 vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "#000000" })
+vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#000000" })
+vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000" })
 
-
+-- scrollbar lol on completion
+-- vim.api.nvim_set_hl(0, "PmenuSbar", { bg = "#000000" })
+-- scrollbar is this lol
+-- vim.api.nvim_set_hl(0, "PmenuThumb", { bg = "#000000" })

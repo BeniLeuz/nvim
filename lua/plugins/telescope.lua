@@ -14,6 +14,7 @@ return {
     local actions = require("telescope.actions")
     require('telescope').setup {
       defaults = {
+        border = false,
         file_ignore_patterns = { "^.git/" },
         mappings = {
           i = {
