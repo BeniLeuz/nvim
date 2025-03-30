@@ -1,4 +1,5 @@
-return { 'saghen/blink.cmp', -- optional: provides snippets for the snippet source
+return {
+  'saghen/blink.cmp', -- optional: provides snippets for the snippet source
   dependencies = { 'rafamadriz/friendly-snippets' },
   tag = 'v1.0.0',
   opts = {
@@ -11,12 +12,14 @@ return { 'saghen/blink.cmp', -- optional: provides snippets for the snippet sour
           else
             return cmp.select_next()
           end
-        end
+        end,
+        'fallback'
       },
     },
+
     completion = {
       trigger = {
-        show_in_snippet = false
+        show_in_snippet = false,
       },
       documentation = {
         auto_show = true,
@@ -25,7 +28,7 @@ return { 'saghen/blink.cmp', -- optional: provides snippets for the snippet sour
         selection = {
           preselect = false
         }
-      }
+      },
     },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
@@ -38,9 +41,6 @@ return { 'saghen/blink.cmp', -- optional: provides snippets for the snippet sour
               eruby = { "html" }
             },
             ignored_filetypes = {},
-            get_filetype = function(context)
-              return vim.bo.filetype
-            end
           },
         },
       }
