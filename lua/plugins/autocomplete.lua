@@ -15,6 +15,9 @@ return { 'saghen/blink.cmp', -- optional: provides snippets for the snippet sour
       },
     },
     completion = {
+      trigger = {
+        show_in_snippet = false
+      },
       documentation = {
         auto_show = true,
       },
