@@ -31,7 +31,6 @@ vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 -- vim.keymap.set( 'i' , '<C-c>', "<Esc>")
 -- vim.keymap.set( 'v' , '<C-c>', "<Esc>")
 
-
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 

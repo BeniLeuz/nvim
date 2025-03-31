@@ -32,30 +32,13 @@ return {
             capabilities = capabilities,
             init_options = {
               fallbackFlags = {
+                -- this ruins c filetype and i dont know an easier way to fix this than just using .clangd file in root
+                -- for this specific flag in c++ projects
+                -- "-std=c++23"
                 "-I../include/",
                 "-I./include/",
               }
             },
-            filetypes = {
-              'c'
-            }
-          }
-        end,
-
-        -- different fallbackflags for c and c++ therefore 2 setup functions for clang
-        ["clangd"] = function()
-          lspconfig.clangd.setup {
-            capabilities = capabilities,
-            init_options = {
-              fallbackFlags = {
-                "-std=c++23",
-                "-I../include/",
-                "-I./include/",
-              }
-            },
-            filetypes = {
-              'cpp'
-            }
           }
         end,
         ["html"] = function()
