@@ -17,6 +17,14 @@ return {
       },
     },
     completion = {
+      menu = {
+        draw = {
+          columns = {
+            { "label", "label_description", gap = 1 },
+            { "kind" },
+          },
+        },
+      },
       trigger = {
         show_in_snippet = false,
       },
