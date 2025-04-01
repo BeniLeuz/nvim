@@ -5,7 +5,6 @@ vim.cmd("set softtabstop=2")
 vim.cmd("set shiftwidth=2")
 vim.o.number = true
 vim.o.relativenumber = true
-
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -18,7 +17,6 @@ vim.o.scrolloff = 8
 vim.o.wrap = false
 vim.o.fillchars='eob: '
 vim.o.winborder = 'rounded'
-
 -- needed for treesitter to highlight properly
 vim.o.termguicolors = true
 
