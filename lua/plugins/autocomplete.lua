@@ -39,8 +39,6 @@ return {
     },
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
-      -- for not showing window when backspacing to empty line
-      min_keyword_length = 1,
       providers = {
         snippets = {
           opts = {
