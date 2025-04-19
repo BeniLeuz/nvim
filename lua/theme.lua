@@ -1,4 +1,3 @@
-
 local type_color = { fg = "#ff9e64" }
 local var_color = { fg = "#73daca" }
 
@@ -19,6 +18,9 @@ end
 for _, group in ipairs(var_groups) do
   vim.api.nvim_set_hl(0, group, var_color)
 end
+
+-- html tag
+vim.api.nvim_set_hl(0, "@tag.html", { fg = "#729FCF" })
 
 -- words like struct, class local function etc
 vim.api.nvim_set_hl(0, "Keyword", { fg = "#FFCF70" })
