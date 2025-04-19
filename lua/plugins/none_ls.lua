@@ -11,6 +11,7 @@ return {
         -- }),
         -- null_ls.builtins.formatting.checkstyle,
         -- null_ls.builtins.formatting.htmlbeautifier
+        null_ls.builtins.formatting.prettierd
       }
     })
 
