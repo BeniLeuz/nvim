@@ -19,5 +19,8 @@ require("lazy").setup("plugins", {
   change_detection = { notify = false }
 })
 
+-- theme for printing white background uncomment when needed
+-- vim.cmd("colorscheme polar");
+
 
 
