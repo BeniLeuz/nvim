@@ -29,6 +29,18 @@ vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 
 -- this makes it so ctrl f can be used for command line window going into it and out of it
 vim.keymap.set({ 'i', 'v', 'n' }, '<C-f>', "<C-c>")
+-- command line window only tbh
+vim.keymap.set('n', ':', function()
+  local buftype = vim.bo.buftype
+  if buftype == 'prompt' or buftype == 'nofile' then
+    return
+  end
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(':<C-f>A', true, true, true), 'n', false)
+end, {
+  noremap = true,                          -- Prevent recursive mapping of ':'
+  silent = true,                           -- Don't echo the simulated keys
+  desc = "Always open CmdWin+Insert for :" -- Description for :Telescope keymaps
+})
 
 vim.keymap.set('i', '<C-c>', "<Esc>")
 vim.keymap.set('v', '<C-c>', "<Esc>")
