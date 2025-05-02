@@ -1,0 +1,64 @@
+-- Add this to your init.lua
+
+-- Set up command window monitoring
+-- vim.api.nvim_create_autocmd("CmdwinEnter", {
+--   pattern = "*", -- Matches entering q:, q/, q? windows
+--   desc = "Setup auto-prefixing for ! commands in CmdWin",
+--   callback = function(args)
+--     -- args.buf contains the buffer number of the command-line window
+--     local cmdwin_bufnr = args.buf
+--     print("Entered command-line window, buffer: " .. cmdwin_bufnr) -- For debugging
+--
+--     -- Create a buffer-local autocmd that triggers when leaving Insert mode *in this specific buffer*
+--     vim.api.nvim_create_autocmd("InsertLeave", {
+--       buffer = cmdwin_bufnr, -- *** Crucial: Make it buffer-local ***
+--       nested = true, -- Allow buffer modifications to trigger further events if needed (though unlikely here)
+--       desc = "Prefix ! commands with 'new | r' on leaving insert mode",
+--       callback = function()
+--         -- Get the line number the cursor was just on
+--         local lnum = vim.api.nvim_win_get_cursor(0)[1] -- 0 is current window, [1] is row (1-based)
+--
+--         -- Check if the line number is valid for the buffer
+--         if lnum <= 0 or lnum > vim.api.nvim_buf_line_count(cmdwin_bufnr) then
+--           print("InsertLeave: Invalid line number " .. lnum .. " for buffer " .. cmdwin_bufnr) -- Debug
+--           return
+--         end
+--
+--         -- Get the content of that line (0-based index for API)
+--         local line = vim.api.nvim_buf_get_lines(cmdwin_bufnr, lnum - 1, lnum, false)[1]
+--
+--         -- Safety check in case the line doesn't exist somehow
+--         if not line then
+--            print("InsertLeave: Could not get line " .. lnum .. " from buffer " .. cmdwin_bufnr) -- Debug
+--            return
+--         end
+--
+--         print("InsertLeave in cmdwin buffer " .. cmdwin_bufnr .. ", line " .. lnum .. ": " .. line) -- Debug
+--
+--         -- Check if the line starts with ! and doesn't already have new | r !
+--         -- Limit replacement to 1 occurrence to be safe
+--         if line:match("^%s*!") and not line:match("^%s*new%s*|%s*r%s*!") then
+--           print("  -> Modifying line") -- Debug
+--           -- Create the modified line with "new | r " inserted before the first "!"
+--           local modified_line = line:gsub("^(%s*)!", "%1new | r !", 1)
+--
+--           -- Replace the current line in the buffer
+--           vim.api.nvim_buf_set_lines(cmdwin_bufnr, lnum - 1, lnum, false, {modified_line})
+--           print("  -> Line modified to: " .. modified_line) -- Debug
+--
+--           -- No need to explicitly move cursor usually after InsertLeave,
+--           -- but if needed, you could add vim.api.nvim_win_set_cursor() here.
+--           -- Example: Move to end of the modified line (adjust if needed)
+--           -- vim.defer_fn(function()
+--           --  if vim.api.nvim_get_current_buf() == cmdwin_bufnr then -- Check if still in cmdwin
+--           --    vim.api.nvim_win_set_cursor(0, {lnum, #modified_line})
+--           --  end
+--           -- end, 10) -- Small delay might help
+--         end
+--       end,
+--     })
+--   end,
+-- })
+--
+-- print("Command-line WINDOW ! prefixer loaded (using InsertLeave).")
+
