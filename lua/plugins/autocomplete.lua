@@ -40,7 +40,33 @@ return {
     sources = {
       default = { 'lsp', 'path', 'snippets', 'buffer' },
       providers = {
+        cmdline = {
+          -- ignores cmdline completions when executing shell commands
+          enabled = function()
+            return vim.fn.getcmdtype() ~= ':' or not vim.fn.getcmdline():match("^[%%0-9,'<>%-]*!")
+          end
+        },
+        buffer = {
+          enabled = function()
+            local buftype = vim.bo.buftype
+
+            if buftype == 'prompt' or buftype == 'nofile' then
+              return false
+            end
+
+            return true
+          end
+        },
         snippets = {
+          enabled = function()
+            local buftype = vim.bo.buftype
+
+            if buftype == 'prompt' or buftype == 'nofile' then
+              return false
+            end
+
+            return true
+          end,
           opts = {
             extended_filetypes = {
               svelte = { "html" },
