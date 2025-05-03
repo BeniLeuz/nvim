@@ -46,7 +46,5 @@ vim.api.nvim_create_autocmd("CmdwinEnter", {
     vim.keymap.set({ 'n', 'i', 'v' }, '<CR>',
       [[<cmd>lua executeModifiedCommand()<CR>]],
       { buffer = 0 })
-
-    print("Command window entered, CR remapped")
   end
 })
