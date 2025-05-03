@@ -40,10 +40,10 @@ function executeModifiedCommand()
   end)
 end
 
--- When entering command window, remap Enter key
 vim.api.nvim_create_autocmd("CmdwinEnter", {
   pattern = ":",
   callback = function()
+    should_delete = false
     -- Create a local mapping for the command window
     vim.keymap.set({ 'n', 'i', 'v' }, '<CR>',
       [[<cmd>lua executeModifiedCommand()<CR>]],
