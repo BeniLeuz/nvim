@@ -26,7 +26,7 @@ function executeModifiedCommand()
       local buf = vim.api.nvim_get_current_buf()
 
       vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, "\n"))
-      vim.api.nvim_buf_set_name(0, "command://output")
+      vim.api.nvim_buf_set_name(0, "cmdout")
       vim.cmd("setlocal buftype=nofile") -- Treat the buffer as 'nofile'
       vim.cmd("setlocal filetype=projterm")
       -- set current buffer as previous buffer
