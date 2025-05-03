@@ -3,7 +3,7 @@ local M = {}
 function executeModifiedCommand()
   -- Get the current line (command)
   local cmd = vim.fn.getline(".")
-
+  vim.fn.histadd(":", cmd)
   -- Exit insert mode and quit the command-line window
   vim.api.nvim_feedkeys(
     vim.api.nvim_replace_termcodes("<Esc>:quit<CR>", true, false, true),
@@ -34,14 +34,12 @@ function executeModifiedCommand()
     else
       vim.cmd(cmd)
     end
-    vim.fn.histadd(":", cmd)
   end)
 end
 
 vim.api.nvim_create_autocmd("CmdwinEnter", {
   pattern = ":",
   callback = function()
-    should_delete = false
     -- Create a local mapping for the command window
     vim.keymap.set({ 'n', 'i', 'v' }, '<CR>',
       [[<cmd>lua executeModifiedCommand()<CR>]],
