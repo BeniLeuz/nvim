@@ -31,12 +31,10 @@ function executeModifiedCommand()
       vim.cmd("setlocal filetype=projterm")
       -- set current buffer as previous buffer
       M.previous_buffer = buf
-
-      -- add command to history lol
-      vim.fn.histadd(":", cmd)
     else
       vim.cmd(cmd)
     end
+    vim.fn.histadd(":", cmd)
   end)
 end
 
