@@ -18,6 +18,7 @@ function executeModifiedCommand()
     false
   )
 
+
   -- Schedule command execution after window closes
   vim.schedule(function()
     -- If the previous buffer exists, wipe it
@@ -25,13 +26,21 @@ function executeModifiedCommand()
       vim.api.nvim_buf_delete(M.previous_buffer, { force = true }) -- Delete the previous buffer
     end
 
-    vim.cmd(modified_cmd)
+    -- Run the shell command and capture the output if it is ! command
+    local output = vim.fn.system(cmd)
+
+    vim.cmd("enew")
+    local buf = vim.api.nvim_get_current_buf()
+
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, "\n"))
+    vim.api.nvim_buf_set_name(0, "command://output")
     vim.cmd("setlocal buftype=nofile") -- Treat the buffer as 'nofile'
-    vim.cmd("setlocal filetype=term")
+    vim.cmd("setlocal filetype=projterm")
+    -- set current buffer as previous buffer
+    M.previous_buffer = buf
+
     -- add command to history lol
     vim.fn.histadd(":", cmd)
-    -- set current buffer as previous buffer
-    M.previous_buffer = vim.api.nvim_get_current_buf()
   end)
 end
 
