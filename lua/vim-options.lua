@@ -19,7 +19,7 @@ vim.o.fillchars='eob: '
 vim.o.winborder = 'rounded'
 -- needed for treesitter to highlight properly
 vim.o.termguicolors = true
-
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve-t:ver25,r-cr-o:hor20"
 -- add when ready without tooltips
 vim.g.netrw_banner = 0
 
