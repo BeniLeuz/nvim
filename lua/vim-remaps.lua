@@ -26,6 +26,7 @@ vim.keymap.set('v', '<leader>y', "\"+y")
 
 -- go out of terminal mode easy access
 vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
 
 -- this makes it so ctrl f can be used for command line window going into it and out of it
 vim.keymap.set({ 'i', 'v', 'n' }, '<C-f>', "<C-c>")
