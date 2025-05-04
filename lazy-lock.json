@@ -1,6 +1,6 @@
 {
   "blink.cmp": { "branch": "main", "commit": "49f211fe5d729df53df4c042d7c3464cf47d199e" },
-  "editable-term.nvim": { "branch": "master", "commit": "d69fd187a3dcfd4baf188ca7e3d5631d28dde521" },
+  "editable-term.nvim": { "branch": "master", "commit": "48ca38ceb07b3697be1b36bdd763318b76d5f37e" },
   "friendly-snippets": { "branch": "main", "commit": "efff286dd74c22f731cdec26a70b46e5b203c619" },
   "harpoon": { "branch": "harpoon2", "commit": "ed1f853847ffd04b2b61c314865665e1dadf22c7" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
