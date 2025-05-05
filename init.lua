@@ -20,6 +20,9 @@ require("lazy").setup("plugins", {
   change_detection = { notify = false }
 })
 
+-- my own termbuf plugin
+require("termbuf")
+
 -- theme for printing white background uncomment when needed
 -- vim.cmd("colorscheme polar");
 
