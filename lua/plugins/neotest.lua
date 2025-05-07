@@ -3,19 +3,21 @@ return {
     "rcasia/neotest-java",
     dependencies = {
       "mfussenegger/nvim-jdtls",
+      "mfussenegger/nvim-dap",
+      "rcarriga/nvim-dap-ui",
+      "theHamsta/nvim-dap-virtual-text",
     },
+    config = function()
+      vim.cmd("NeotestJava setup")
+    end
   },
   {
     "nvim-neotest/neotest",
     dependencies = {
-      "mfussenegger/nvim-dap",
-      "rcarriga/nvim-dap-ui",
-      "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "rcasia/neotest-java",
     },
     config = function()
       local neotest = require("neotest")
