@@ -21,6 +21,9 @@ return {
       local lspconfig = require("lspconfig")
       local capabilities = require("blink.cmp").get_lsp_capabilities()
 
+      -- for nvim-jdtls workspace clearing:
+      -- rm -rf ~/.cache/jdtls/* or
+      -- rm -rf ~/.local/share/nvim/jdtls-workspace/*
       require("mason-lspconfig").setup_handlers({
         function(server_name) -- default handler (optional)
           lspconfig[server_name].setup({
