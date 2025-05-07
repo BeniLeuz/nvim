@@ -8,9 +8,13 @@ return {
       "theHamsta/nvim-dap-virtual-text",
     },
     -- INFO: needs to be ran to download junit console
-    -- config = function()
-    --   vim.cmd("NeotestJava setup")
-    -- end
+    config = function()
+      vim.cmd("NeotestJava setup")
+      vim.defer_fn(function()
+        vim.cmd("echo ''")
+        vim.cmd("messages clear")
+      end, 0)
+    end
   },
   {
     "nvim-neotest/neotest",
@@ -42,6 +46,23 @@ return {
       end, { desc = "Open test summary" })
 
       require("neotest").setup({
+        icons = {
+          child_indent = "│",
+          child_prefix = "├",
+          collapsed = "─",
+          expanded = "╮",
+          failed = "F",
+          final_child_indent = " ",
+          final_child_prefix = "╰",
+          non_collapsible = "─",
+          notify = "N",
+          passed = "P",
+          running = "R",
+          running_animated = { "/", "|", "\\", "-", "/", "|", "\\", "-" },
+          skipped = "S",
+          unknown = "U",
+          watching = "W"
+        },
         adapters = {
           require("neotest-java")({}),
         },
