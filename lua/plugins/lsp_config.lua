@@ -30,7 +30,6 @@ return {
         ["ts_ls"] = function()
           lspconfig.ts_ls.setup {
             capabilities = capabilities,
-            -- always make type checks!
             settings = {
               implicitProjectConfiguration = {
                 checkJs = true,
@@ -57,7 +56,9 @@ return {
             capabilities = capabilities,
             filetypes = { 'html', 'md' },
             settings = {
-              html = { format = { indentInnerHtml = true } }
+              html = {
+                format = { indentInnerHtml = true },
+              }
             }
           }
         end,

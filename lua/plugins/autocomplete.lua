@@ -71,7 +71,8 @@ return {
             extended_filetypes = {
               svelte = { "html" },
               eruby = { "html" },
-              javascript = { "jsdoc" },
+              html = { "javascript", "typescript" },
+              javascript = { "html", "jsdoc" },
             },
             ignored_filetypes = {},
           },
