@@ -70,7 +70,8 @@ return {
           opts = {
             extended_filetypes = {
               svelte = { "html" },
-              eruby = { "html" }
+              eruby = { "html" },
+              javascript = { "jsdoc" },
             },
             ignored_filetypes = {},
           },
