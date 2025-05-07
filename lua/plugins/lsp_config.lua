@@ -27,6 +27,17 @@ return {
             capabilities = capabilities
           })
         end,
+        ["ts_ls"] = function()
+          lspconfig.ts_ls.setup {
+            capabilities = capabilities,
+            -- always make type checks!
+            settings = {
+              implicitProjectConfiguration = {
+                checkJs = true,
+              },
+            },
+          }
+        end,
         ["clangd"] = function()
           lspconfig.clangd.setup {
             capabilities = capabilities,
