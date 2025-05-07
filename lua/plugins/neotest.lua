@@ -7,9 +7,10 @@ return {
       "rcarriga/nvim-dap-ui",
       "theHamsta/nvim-dap-virtual-text",
     },
-    config = function()
-      vim.cmd("NeotestJava setup")
-    end
+    -- INFO: needs to be ran to download junit console
+    -- config = function()
+    --   vim.cmd("NeotestJava setup")
+    -- end
   },
   {
     "nvim-neotest/neotest",
