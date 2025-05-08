@@ -1,6 +1,21 @@
 local M = {}
 
+local function clear_line(buf)
+  return vim.api.nvim_chan_send(vim.bo.channel, vim.api.nvim_replace_termcodes(buf.keybinds.clear_line, true, false, true))
+end
 
+local function insert_line(buf)
+  return vim.api.nvim_chan_send(vim.bo.channel, buf.prompt.line)
+end
+
+local function update_line(buf)
+  local err_clear = clear_line(buf)
+  local err_insert = insert_line(buf)
+
+  if (err_clear or err_insert) then
+    return error("Wasn't able to update line in terminal")
+  end
+end
 
 local function setup_keybinds()
   -- vim.keymap.set('n', 'A', function()
@@ -22,21 +37,39 @@ end
 local function setup_cmds()
   local group = vim.api.nvim_create_augroup("termbuf-edit", {});
 
-  -- magic begins
-  -- when term leave we update our line for prompt
-  -- when term enter we clear the line neovim would do and add ours we have ready from termleave or textchanged not sure
+  vim.api.nvim_create_autocmd("TextChanged", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      -- this callback also will be called if you change inside terminal mode
+      -- and then go back out then the line will also be updated.
+      local buf = M.buffers[args.buf]
+
+      if (buf.prompt.col == nil) then
+        return
+      end
+
+      local line = vim.api.nvim_get_current_line()
+      buf.prompt.line = line:sub(buf.prompt.col + 1)
+    end
+  })
+
 
   vim.api.nvim_create_autocmd("TermEnter", {
     pattern = M.buf_pattern,
     group = group,
     callback = function(args)
       local buf = M.buffers[args.buf]
-
-      if (buf.prompt_cursor.row == nil or buf.prompt_cursor.col == nil) then
+      if (buf.prompt.row == nil or buf.prompt.col == nil) then
         return
       end
 
-      print(buf.prompt_cursor)
+      if (buf.prompt.line == "" or buf.prompt.line == nil) then
+        print("got here somehow")
+        clear_line(buf)
+      else
+        update_line(buf)
+      end
     end
   })
 
@@ -46,7 +79,7 @@ local function setup_cmds()
     callback = function(args)
       local buf = M.buffers[args.buf]
       local cur = vim.api.nvim_win_get_cursor(0)
-      vim.bo.modifiable = buf.prompt_cursor.row == cur[1] and buf.prompt_cursor.col <= cur[2]
+      vim.bo.modifiable = buf.prompt.row == cur[1] and buf.prompt.col <= cur[2]
     end
   })
 
@@ -59,9 +92,9 @@ local function setup_cmds()
       local line = vim.api.nvim_get_current_line()
 
       for prompt, _ in pairs(M.prompts) do
-        s, e = line:find(prompt)
+        local s, e = line:find(prompt)
         if (s ~= nil) then
-          buf.prompt_cursor = {
+          buf.prompt = {
             row = cursor[1],
             col = e
           }
@@ -74,33 +107,32 @@ end
 --- Set up the plugin internally on termopen
 ---@return nil
 local function setup()
-  local augr_term = vim.api.nvim_create_augroup("termbuf", { clear = true })
+  setup_keybinds()
+  setup_cmds()
 
+  local augr_term = vim.api.nvim_create_augroup("termbuf", {})
   vim.api.nvim_create_autocmd('TermOpen', {
     pattern = M.buf_pattern,
     group = augr_term,
     callback = function(args)
-      -- setup default values 
+      -- setup default values
       M.buffers[args.buf] = {
         keybinds = M.default_keybinds,
-        prompt_cursor = {
+        prompt = {
+          line = "",
           row = nil,
           col = nil
         }
       }
-
-
-
-      setup_keybinds()
-      setup_cmds()
     end
   })
+
 end
 
 ---@class Keybinds
----@field clear_current_line string Key to clear the current line in editable regions
----@field forward_char string Key to move forward one character
----@field goto_line_start string Key to move to the start of the line
+---@field clear_line string Key to clear the current line in editable regions
+---@field move_char_forward string Key to move forward one character
+---@field goto_startof_line string Key to move to the start of the line
 
 ---@class PromptOptions
 ---@field keybinds? Keybinds Custom keybindings for this specific prompt pattern
@@ -117,7 +149,7 @@ M.setup = function(config)
   M.buf_pattern = "term://*"
   M.buffers = {};
   M.prompts = config.prompts or {
-    -- space needs to be included!!! 
+    -- space needs to be included!!!
     ['.*[$#%%][ ]?'] = {}
     -- todo
     -- not yet supported!
@@ -132,9 +164,9 @@ M.setup = function(config)
   }
 
   M.default_keybinds = {
-    clear_current_line = '<C-e><C-u>',
-    forward_char = '<C-f>',
-    goto_line_start = '<C-a>',
+    clear_line = '<C-e><C-u>',
+    move_char_forward = '<C-f>',
+    goto_startof_line = '<C-a>',
   }
   setup()
 end
