@@ -1,24 +1,98 @@
 local M = {}
 
---- Set up the termbuf autocmds to hook into opened terminal buffers
----@param config TermBufConfig
+
+
+local function setup_keybinds()
+  -- vim.keymap.set('n', 'A', function()
+  -- end, { pattern = M.buf_pattern })
+  --
+  -- vim.keymap.set('n', 'I', function()
+  -- end, { pattern = M.buf_pattern})
+  --
+  -- vim.keymap.set('n', 'i', function()
+  -- end, { pattern = M.buf_pattern})
+  --
+  -- vim.keymap.set('n', 'a', function()
+  -- end,{ pattern = M.buf_pattern})
+  --
+  -- vim.keymap.set('n', 'dd', function()
+  -- end, { pattern = M.buf_pattern })
+end
+
+local function setup_cmds()
+  local group = vim.api.nvim_create_augroup("termbuf-edit", {});
+
+  -- magic begins
+  -- when term leave we update our line for prompt
+  -- when term enter we clear the line neovim would do and add ours we have ready from termleave or textchanged not sure
+
+  vim.api.nvim_create_autocmd("TermEnter", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local buf = M.buffers[args.buf]
+
+      if (buf.prompt_cursor.row == nil or buf.prompt_cursor.col == nil) then
+        return
+      end
+
+      print(buf.prompt_cursor)
+    end
+  })
+
+  vim.api.nvim_create_autocmd("CursorMoved", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local buf = M.buffers[args.buf]
+      local cur = vim.api.nvim_win_get_cursor(0)
+      vim.bo.modifiable = buf.prompt_cursor.row == cur[1] and buf.prompt_cursor.col <= cur[2]
+    end
+  })
+
+  vim.api.nvim_create_autocmd("TermLeave", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local buf = M.buffers[args.buf]
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      local line = vim.api.nvim_get_current_line()
+
+      for prompt, _ in pairs(M.prompts) do
+        s, e = line:find(prompt)
+        if (s ~= nil) then
+          buf.prompt_cursor = {
+            row = cursor[1],
+            col = e
+          }
+        end
+      end
+    end
+  })
+end
+
+--- Set up the plugin internally on termopen
 ---@return nil
-local function setup_auto_cmds(config)
+local function setup()
   local augr_term = vim.api.nvim_create_augroup("termbuf", { clear = true })
 
   vim.api.nvim_create_autocmd('TermOpen', {
-    pattern = "term://",
+    pattern = M.buf_pattern,
     group = augr_term,
     callback = function(args)
+      -- setup default values 
       M.buffers[args.buf] = {
-        keybinds = M.default_keybinds
+        keybinds = M.default_keybinds,
+        prompt_cursor = {
+          row = nil,
+          col = nil
+        }
       }
 
-      -- setup specific keybinds like dd etc
-      vim.api.nvim_create_augroup("local-termbuf", { clear = true })
 
 
-
+      setup_keybinds()
+      setup_cmds()
     end
   })
 end
@@ -39,15 +113,30 @@ end
 ---@param config TermBufConfig Configuration table for editable-term
 ---@return nil
 M.setup = function(config)
+  -- this might not make sense since modifiable ruined on different command term outputs
+  M.buf_pattern = "term://*"
   M.buffers = {};
-  M.prompts = config.prompts or {}
-  M.default_keybinds = (config or {}).default_keybinds or {
+  M.prompts = config.prompts or {
+    ['.*[$#%%][ ]?'] = {}
+
+    -- todo
+    -- not yet supported!
+    -- if you want to add different keybinds for the a prompt
+    -- ['# '] = {
+    --   keybinds = {
+    --     clear_current_line = '<C-e><C-u>',
+    --     forward_char = '<C-f>',
+    --     goto_line_start = '<C-a>',
+    --   }
+    -- }
+  }
+
+  M.default_keybinds = {
     clear_current_line = '<C-e><C-u>',
     forward_char = '<C-f>',
     goto_line_start = '<C-a>',
   }
-
-  setup_auto_cmds(config)
+  setup()
 end
 
 return M
