@@ -8,13 +8,7 @@ return {
       "theHamsta/nvim-dap-virtual-text",
     },
     -- INFO: needs to be ran to download junit console
-    config = function()
-      vim.cmd("NeotestJava setup")
-      vim.defer_fn(function()
-        vim.cmd("echo ''")
-        vim.cmd("messages clear")
-      end, 0)
-    end
+    -- :NeotestJava setup
   },
   {
     "nvim-neotest/neotest",
@@ -23,6 +17,7 @@ return {
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "alfaix/neotest-gtest",
     },
     config = function()
       local neotest = require("neotest")
@@ -65,6 +60,9 @@ return {
         },
         adapters = {
           require("neotest-java")({}),
+          -- mark tests
+          -- then :ConfigureGtest
+          require("neotest-gtest").setup({})
         },
       })
     end,
