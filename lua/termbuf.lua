@@ -117,8 +117,8 @@ M.setup = function(config)
   M.buf_pattern = "term://*"
   M.buffers = {};
   M.prompts = config.prompts or {
+    -- space needs to be included!!! 
     ['.*[$#%%][ ]?'] = {}
-
     -- todo
     -- not yet supported!
     -- if you want to add different keybinds for the a prompt
