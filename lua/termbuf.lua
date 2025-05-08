@@ -8,6 +8,8 @@ local function insert_line(buf)
   return vim.api.nvim_chan_send(vim.bo.channel, buf.prompt.line)
 end
 
+-- todo: can we do this without flickering? at all?
+-- like maybe in one function call will be faster and better? but i dont think that matters at all but atleast try it out man
 local function update_line(buf)
   local err_clear = clear_line(buf)
   local err_insert = insert_line(buf)
@@ -18,14 +20,20 @@ local function update_line(buf)
 end
 
 local function setup_keybinds()
-  -- vim.keymap.set('n', 'A', function()
-  -- end, { pattern = M.buf_pattern })
-  --
   -- vim.keymap.set('n', 'I', function()
   -- end, { pattern = M.buf_pattern})
   --
   -- vim.keymap.set('n', 'i', function()
   -- end, { pattern = M.buf_pattern})
+  --
+  -- todo: will need to be able to also shift+v+d without actually deleting the front line.
+  -- needs to be only line check and afterwards calculate.
+  -- text yank post will not be good enough tbh but maybe there just is not another way..
+  -- unless i actually remap a lot more than i thought necessary, i might just do.
+  --
+  -- vim.keymap.set('n', 'A', function()
+  -- end, { pattern = M.buf_pattern })
+  --
   --
   -- vim.keymap.set('n', 'a', function()
   -- end,{ pattern = M.buf_pattern})
@@ -64,11 +72,7 @@ local function setup_cmds()
         return
       end
 
-      if (buf.prompt.line == "" or buf.prompt.line == nil) then
-        clear_line(buf)
-      else
-        update_line(buf)
-      end
+      update_line(buf)
     end
   })
 
@@ -121,11 +125,7 @@ local function setup()
       -- setup default values
       M.buffers[args.buf] = {
         keybinds = M.default_keybinds,
-        prompt = {
-          line = "",
-          row = nil,
-          col = nil
-        }
+        prompt = {}
       }
     end
   })
