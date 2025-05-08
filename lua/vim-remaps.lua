@@ -2,29 +2,30 @@
 vim.keymap.set('n', '<Leader>pv', vim.cmd.Ex)
 
 -- moving lines in visual mode, nice
-vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
-vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
-
 -- remaps for staying in the middle on ctrl d/u for halfway jumps
 vim.keymap.set('n', '<C-d>', "<C-d>zz")
 vim.keymap.set('n', '<C-u>', "<C-u>zz")
+
+vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
+vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
 -- search terms stay in the middle
 vim.keymap.set('n', 'n', "nzzzv")
 vim.keymap.set('n', 'N', "Nzzzv")
 
 -- copy logics
-vim.keymap.set('n', 'd', "\"_d")
-vim.keymap.set('x', 'p', "\"_dP")
+-- vim.keymap.set('n', 'd', "\"_d")
+-- vim.keymap.set('x', 'p', "\"_dP")
 -- dont copy on delete
-vim.keymap.set('v', 'd', "\"_d")
-vim.keymap.set('n', 'dd', "\"_dd")
+-- vim.keymap.set('v', 'd', "\"_d")
+-- vim.keymap.set('n', 'dd', "\"_dd")
 -- dont copy on diw etc
-vim.keymap.set('n', 'd', "\"_d")
+-- vim.keymap.set('n', 'd', "\"_d")
 -- dont copy on ciw etc
-vim.keymap.set('n', 'c', "\"_c")
+-- vim.keymap.set('n', 'c', "\"_c")
 
 -- for system clipboard use leader copy
+vim.keymap.set('x', '<leader>p', "\"_dP")
 vim.keymap.set('n', '<leader>y', "\"+y")
 vim.keymap.set('v', '<leader>y', "\"+y")
 
