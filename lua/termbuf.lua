@@ -65,7 +65,6 @@ local function setup_cmds()
       end
 
       if (buf.prompt.line == "" or buf.prompt.line == nil) then
-        print("got here somehow")
         clear_line(buf)
       else
         update_line(buf)
@@ -91,10 +90,14 @@ local function setup_cmds()
       local cursor = vim.api.nvim_win_get_cursor(0)
       local line = vim.api.nvim_get_current_line()
 
+      -- generally textchanged is always triggered when there is something on the line already
+      -- sadly you cant be sure that this is the case always when the line is actually empty
+      -- therefore we need to set the line on termleave as well to be safe!
       for prompt, _ in pairs(M.prompts) do
         local s, e = line:find(prompt)
         if (s ~= nil) then
           buf.prompt = {
+            line = line:sub(e + 1),
             row = cursor[1],
             col = e
           }
