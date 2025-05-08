@@ -62,6 +62,8 @@ return {
           require("neotest-java")({}),
           -- mark tests
           -- then :ConfigureGtest
+          -- also nice to have for recompile in terminal just run this: 
+          -- find folder | entr -c make or cmake
           require("neotest-gtest").setup({})
         },
       })
