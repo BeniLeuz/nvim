@@ -22,6 +22,7 @@ vim.keymap.set('n', 'N', "Nzzzv")
 -- dont copy on diw etc
 -- vim.keymap.set('n', 'd', "\"_d")
 -- dont copy on ciw etc
+-- this breaks ciw from editable term btw lol
 -- vim.keymap.set('n', 'c', "\"_c")
 
 -- for system clipboard use leader copy
