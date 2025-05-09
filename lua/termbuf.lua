@@ -62,6 +62,27 @@ local function setup_cmds()
     end
   })
 
+  vim.api.nvim_create_autocmd("TextChangedT", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local buf = M.buffers[args.buf]
+      if (buf.textyankpost) then
+        local line = vim.api.nvim_get_current_line()
+        buf.prompt.line = line:sub(buf.prompt.col + 1)
+        update_line(buf)
+      end
+    end
+  })
+
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local buf = M.buffers[args.buf]
+      buf.textyankpost = true
+    end
+  })
 
   vim.api.nvim_create_autocmd("TermEnter", {
     pattern = M.buf_pattern,
@@ -125,7 +146,12 @@ local function setup()
       -- setup default values
       M.buffers[args.buf] = {
         keybinds = M.default_keybinds,
-        prompt = {}
+        prompt = {
+          line = nil,
+          row = nil,
+          col = nil
+        },
+        textyankpost = false
       }
     end
   })
