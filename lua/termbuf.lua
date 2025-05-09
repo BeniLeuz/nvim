@@ -1,7 +1,8 @@
 local M = {}
 
 local function clear_line(buf)
-  return vim.api.nvim_chan_send(vim.bo.channel, vim.api.nvim_replace_termcodes(buf.keybinds.clear_line, true, false, true))
+  return vim.api.nvim_chan_send(vim.bo.channel,
+    vim.api.nvim_replace_termcodes(buf.keybinds.clear_line, true, false, true))
 end
 
 local function insert_line(buf)
@@ -84,6 +85,39 @@ local function setup_cmds()
     end
   })
 
+  vim.api.nvim_create_autocmd("TermResponse", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      print("termresponse lol")
+      print("cursor: " .. tostring(cursor[1]))
+      print("cursor: " .. tostring(cursor[2]))
+    end
+  })
+
+  -- todo:
+  -- might be the reason iterm2 prompts get marked wronly
+  -- Shells can emit semantic escape sequences (OSC 133) to mark where each prompt
+  -- from terminal.txt
+  -- starts and ends. The start of a prompt is marked by sequence `OSC 133 ; A ST`,
+  -- and the end by `OSC 133 ; B ST`.
+  --
+  -- You can configure your shell "rc" (e.g. ~/.bashrc) to emit OSC 133 sequences,
+  -- or your terminal may attempt to do it for you (assuming your shell config
+  -- doesn't interfere).
+
+  vim.api.nvim_create_autocmd("TermRequest", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      print("termrequest lol")
+      print("cursor: " .. tostring(cursor[1]))
+      print("cursor: " .. tostring(cursor[2]))
+    end
+  })
+
   vim.api.nvim_create_autocmd("TermEnter", {
     pattern = M.buf_pattern,
     group = group,
@@ -92,7 +126,6 @@ local function setup_cmds()
       if (buf.prompt.row == nil or buf.prompt.col == nil) then
         return
       end
-
       update_line(buf)
     end
   })
@@ -155,7 +188,6 @@ local function setup()
       }
     end
   })
-
 end
 
 ---@class Keybinds
