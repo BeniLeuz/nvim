@@ -21,7 +21,6 @@ require("lazy").setup("plugins", {
 })
 
 require("termemulator")
--- -- my own termbuf plugin
 -- require("termbuf").setup({
 --
 -- })
