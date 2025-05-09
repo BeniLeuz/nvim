@@ -20,10 +20,10 @@ require("lazy").setup("plugins", {
   change_detection = { notify = false }
 })
 
-require("termemulator")
--- require("termbuf").setup({
---
--- })
+-- require("termemulator")
+require("termbuf").setup({
+
+})
 
 -- theme for printing white background uncomment when needed
 -- vim.cmd("colorscheme polar");
