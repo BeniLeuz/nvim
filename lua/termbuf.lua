@@ -15,6 +15,7 @@ local function update_line(buf)
   local err_clear = clear_line(buf)
   local err_insert = insert_line(buf)
 
+  -- vim.fn.chanclose(vim.bo.channel)
   if (err_clear or err_insert) then
     return error("Wasn't able to update line in terminal")
   end
