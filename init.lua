@@ -21,9 +21,9 @@ require("lazy").setup("plugins", {
 })
 
 -- require("termemulator")
-require("termbuf").setup({
-
-})
+-- require("termbuf").setup({
+--
+-- })
 
 -- theme for printing white background uncomment when needed
 -- vim.cmd("colorscheme polar");
