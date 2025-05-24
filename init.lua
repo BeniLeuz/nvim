@@ -20,6 +20,14 @@ require("lazy").setup("plugins", {
   change_detection = { notify = false }
 })
 
+-- this is only because peb is not a real file. its fake
+vim.filetype.add({
+  extension = {
+    peb = "htmldjango",
+  },
+})
+
+
 -- require("termemulator")
 -- require("termbuf").setup({
 --

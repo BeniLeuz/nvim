@@ -47,7 +47,7 @@ return {
               fallbackFlags = {
                 -- this ruins c filetype and i dont know an easier way to fix this than just using .clangd file in root
                 -- for this specific flag in c++ projects
-                -- "-std=c++23"
+                "-std=c++23",
                 "-I../include/",
                 "-I./include/",
               }
@@ -57,7 +57,7 @@ return {
         ["html"] = function()
           lspconfig.html.setup {
             capabilities = capabilities,
-            filetypes = { 'html', 'md' },
+            filetypes = { 'html', 'md', 'htmldjango' },
             settings = {
               html = {
                 format = { indentInnerHtml = true },
