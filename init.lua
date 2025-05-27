@@ -21,11 +21,11 @@ require("lazy").setup("plugins", {
 })
 
 -- this is only because peb is not a real file. its fake
-vim.filetype.add({
-  extension = {
-    peb = "htmldjango",
-  },
-})
+-- vim.filetype.add({
+--   extension = {
+--     peb = "htmldjango",
+--   },
+-- })
 
 
 -- require("termemulator")
