@@ -11,6 +11,7 @@ local var_groups = {
   "@parameter", "@property", "@field", "@identifier"
 }
 
+
 for _, group in ipairs(type_groups) do
   vim.api.nvim_set_hl(0, group, type_color)
 end
@@ -21,6 +22,8 @@ end
 
 -- html tag
 vim.api.nvim_set_hl(0, "@tag.html", { fg = "#729FCF" })
+-- because java is sus
+vim.api.nvim_set_hl(0, "@lsp.type.modifier.java", { fg = "#FFCF70" })
 
 -- words like struct, class local function etc
 vim.api.nvim_set_hl(0, "Keyword", { fg = "#FFCF70" })
