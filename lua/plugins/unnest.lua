@@ -1,3 +1,3 @@
 return {
-  -- "brianhuster/unnest.nvim"
+  "brianhuster/unnest.nvim"
 }
