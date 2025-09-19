@@ -210,8 +210,14 @@ local function setup()
           row = nil,
           col = nil,
           -- this represents where we want the term cursor to be after entering the terminal mode again
-          -- we cannot do this inside 'a' keybinds since this will be overwriten by update_line call in termenter
+          -- we cannot do this inside 'a' keybinds directly since this will be overwriten by update_line call in termenter
           -- autocommand. we simply set it inside 'a' or 'i' keybinds and make sure we move it there once we go into term enter
+          -- TODO maybe the approach of doing it in textchanged and just knowing when terminal leaves or enters is better.
+          -- then we can just update the line every single time we leave the terminal and never when we enter.
+          -- this would also mean it updates the line every motion that changes anything which really is fine.
+          -- could also remove the spaces at the end issue since we then update the line on text changed always and not only on termenter override it.
+          -- therefore neovim would maybe not add the weird spaces in the end anymore since it does'nt go into terminal mode with aiddferent length that it should have.
+          -- then we can just setcursorpos directly in the keybinds, since it will not override it.
           cursor_col = nil
         },
       }
