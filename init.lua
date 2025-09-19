@@ -28,13 +28,25 @@ require("lazy").setup("plugins", {
 -- })
 
 
+-- local function term_codes(str) return vim.api.nvim_replace_termcodes(str, true, false, true) end
+--
+-- vim.api.nvim_create_autocmd("TermOpen", {
+--     callback = function(args)
+--     local buf = args.buf
+--     local chan = vim.b[buf].terminal_job_id
+--     vim.keymap.set('n', '<leader>t',
+--       function()
+--         vim.fn.chansend(chan, term_codes('<C-a>'))
+--         vim.fn.chansend(chan, term_codes('<C-f><C-f>'))
+--         vim.fn.chansend(chan, term_codes('<C-a>'))
+--       end, { buffer = buf })
+--   end
+-- })
+
+
 -- require("termemulator")
 -- require("termbuf").setup({
---
 -- })
 
 -- theme for printing white background uncomment when needed
 -- vim.cmd("colorscheme polar");
-
-
-

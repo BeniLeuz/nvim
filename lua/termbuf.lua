@@ -1,27 +1,54 @@
 local M = {}
 
+local function replace_term_codes(keys)
+  return vim.api.nvim_replace_termcodes(keys, true, false, true)
+end
+
 local function clear_line(buf)
   return vim.api.nvim_chan_send(vim.bo.channel,
-    vim.api.nvim_replace_termcodes(buf.keybinds.clear_line, true, false, true))
+    replace_term_codes(buf.keybinds.clear_line))
 end
 
 local function insert_line(buf)
   return vim.api.nvim_chan_send(vim.bo.channel, buf.prompt.line)
 end
 
+-- necessary for 'a' keybind or 'A' and stuff
+local function set_term_cursor(cursor_col)
+  local buf = M.buffers[vim.api.nvim_get_current_buf()]
+  local p = replace_term_codes(buf.keybinds.goto_startof_line) ..
+      vim.fn['repeat'](replace_term_codes(buf.keybinds.move_char_forward),
+        cursor_col - buf.prompt.col)
+  vim.api.nvim_chan_send(vim.bo.channel, p)
+end
+
 -- todo: can we do this without flickering? at all?
 -- like maybe in one function call will be faster and better? but i dont think that matters at all but atleast try it out man
 local function update_line(buf)
+  print("got into update line with: " .. buf.prompt.line .. "end")
   local err_clear = clear_line(buf)
   local err_insert = insert_line(buf)
 
-  -- vim.fn.chanclose(vim.bo.channel)
+  -- maybe make sure that we actually reset terinal cursor to be where we want it to be?
   if (err_clear or err_insert) then
     return error("Wasn't able to update line in terminal")
   end
 end
 
 local function setup_keybinds()
+  vim.keymap.set('n', 'i', function()
+    if vim.bo.buftype ~= "terminal" then
+      return "i"
+    end
+
+    -- TODO WHERE I STOPPED FOR NOW PLEASE DO NOT USE IT LIKE THIS JUST MAKE MULTIPLE FOR EACH BUFFER WHO CARES TOO MANY
+    -- KEYBINDS IS FINE IDK REALLY
+    local buf = M.buffers[vim.api.nvim_get_current_buf()]
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    buf.prompt.cursor_col = cursor[2]
+    return "i"
+  end, { expr = true })
+
   -- vim.keymap.set('n', 'I', function()
   -- end, { pattern = M.buf_pattern})
   --
@@ -35,15 +62,17 @@ local function setup_keybinds()
   --
   -- vim.keymap.set('n', 'A', function()
   -- end, { pattern = M.buf_pattern })
+
   --
   --
   -- vim.keymap.set('n', 'a', function()
-  -- end,{ pattern = M.buf_pattern})
+  -- end)
   --
   -- vim.keymap.set('n', 'dd', function()
   -- end, { pattern = M.buf_pattern })
 end
 
+x = 0;
 local function setup_cmds()
   local group = vim.api.nvim_create_augroup("termbuf-edit", {});
 
@@ -58,33 +87,22 @@ local function setup_cmds()
       if (buf.prompt.col == nil) then
         return
       end
-
+      x = x + 1
+      print("changed " .. x)
       local line = vim.api.nvim_get_current_line()
+      print("changed into" .. line .. "end")
       buf.prompt.line = line:sub(buf.prompt.col + 1)
     end
   })
 
-  vim.api.nvim_create_autocmd("TextChangedT", {
-    pattern = M.buf_pattern,
-    group = group,
-    callback = function(args)
-      local buf = M.buffers[args.buf]
-      if (buf.textyankpost) then
-        local line = vim.api.nvim_get_current_line()
-        buf.prompt.line = line:sub(buf.prompt.col + 1)
-        update_line(buf)
-      end
-    end
-  })
-
-  vim.api.nvim_create_autocmd("TextYankPost", {
-    pattern = M.buf_pattern,
-    group = group,
-    callback = function(args)
-      local buf = M.buffers[args.buf]
-      buf.textyankpost = true
-    end
-  })
+  -- vim.api.nvim_create_autocmd("TextYankPost", {
+  --   pattern = M.buf_pattern,
+  --   group = group,
+  --   callback = function(args)
+  --     local buf = M.buffers[args.buf]
+  --     buf.textyankpost = true
+  --   end
+  -- })
 
   vim.api.nvim_create_autocmd("TermResponse", {
     pattern = M.buf_pattern,
@@ -98,7 +116,7 @@ local function setup_cmds()
   })
 
   -- todo:
-  -- might be the reason iterm2 prompts get marked wronly
+  -- might be the reason iterm2 prompts get marked wrongly (its not)
   -- Shells can emit semantic escape sequences (OSC 133) to mark where each prompt
   -- from terminal.txt
   -- starts and ends. The start of a prompt is marked by sequence `OSC 133 ; A ST`,
@@ -107,27 +125,33 @@ local function setup_cmds()
   -- You can configure your shell "rc" (e.g. ~/.bashrc) to emit OSC 133 sequences,
   -- or your terminal may attempt to do it for you (assuming your shell config
   -- doesn't interfere).
-
   vim.api.nvim_create_autocmd("TermRequest", {
     pattern = M.buf_pattern,
     group = group,
     callback = function(args)
       local cursor = vim.api.nvim_win_get_cursor(0)
-      print("termrequest lol")
+      print("termrequest lol never have i seen this yet btw")
       print("cursor: " .. tostring(cursor[1]))
       print("cursor: " .. tostring(cursor[2]))
     end
   })
 
+  -- so currently termenter actually happens before nvim does its weird magic by rewriting the deleted line in a terminal
+  -- therefore even if we clear line and then rewrite it afterwards nvim adds their weird spaces back into the line..
+  -- TODO: therefore there are spaces in the end of line. MAYBE, we dont need to care about it since the only time it
+  -- this matter is on a, i , etc commands. If we then set_cursor manually again it might just work. without issues again
   vim.api.nvim_create_autocmd("TermEnter", {
     pattern = M.buf_pattern,
     group = group,
     callback = function(args)
       local buf = M.buffers[args.buf]
+
       if (buf.prompt.row == nil or buf.prompt.col == nil) then
         return
       end
+
       update_line(buf)
+      set_term_cursor(buf.prompt.cursor_col)
     end
   })
 
@@ -141,6 +165,7 @@ local function setup_cmds()
     end
   })
 
+  -- only used for finding the prompt cursor always on termleave
   vim.api.nvim_create_autocmd("TermLeave", {
     pattern = M.buf_pattern,
     group = group,
@@ -183,9 +208,12 @@ local function setup()
         prompt = {
           line = nil,
           row = nil,
-          col = nil
+          col = nil,
+          -- this represents where we want the term cursor to be after entering the terminal mode again
+          -- we cannot do this inside 'a' keybinds since this will be overwriten by update_line call in termenter
+          -- autocommand. we simply set it inside 'a' or 'i' keybinds and make sure we move it there once we go into term enter
+          cursor_col = nil
         },
-        textyankpost = false
       }
     end
   })
@@ -226,7 +254,7 @@ M.setup = function(config)
   }
 
   M.default_keybinds = {
-    clear_line = '<C-e><C-u>',
+    clear_line = '<C-u>',
     move_char_forward = '<C-f>',
     goto_startof_line = '<C-a>',
   }
