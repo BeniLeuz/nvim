@@ -14,7 +14,7 @@ return {
           "clangd",
           "ruby_lsp",
           "ts_ls",
-          "html"
+          "html",
         }
       })
 
@@ -66,6 +66,10 @@ return {
           }
         end,
       })
+
+      lspconfig.sourcekit.setup {
+        capabilities = capabilities
+      }
 
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
       vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, {})
