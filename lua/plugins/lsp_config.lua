@@ -47,7 +47,7 @@ return {
               fallbackFlags = {
                 -- this ruins c filetype and i dont know an easier way to fix this than just using .clangd file in root
                 -- for this specific flag in c++ projects
-                "-std=c++23",
+                -- "-std=c++23",
                 "-I../include/",
                 "-I./include/",
               }
@@ -67,9 +67,9 @@ return {
         end,
       })
 
-      lspconfig.sourcekit.setup {
-        capabilities = capabilities
-      }
+      -- lspconfig.sourcekit.setup {
+      --   capabilities = capabilities
+      -- }
 
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
       vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, {})
