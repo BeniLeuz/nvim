@@ -5,7 +5,8 @@ return {
     editableterm.setup({
       promts = {
         ['.*[$#%%][ ]'] = {},
-        ["%(%gdb%)[ ]"] = {}
+        ["%(%gdb%)[ ]"] = {},
+        ["^ghci>%s"] = {}
       },
     })
   end,
