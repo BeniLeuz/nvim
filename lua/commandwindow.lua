@@ -1,3 +1,8 @@
+-- pipes ! outputs in commandwindow (:q) to a buffer called "output"
+-- makes it so i can have stuff like !make in a buffer where i can edit the output unlike in my term
+-- since i am using editable term
+-- probably in the future just copy the output and put it into scratch buffer and remove this bloatware....
+
 local M = {}
 
 function executeModifiedCommand()

@@ -14,6 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("vim-options")
 require("vim-remaps")
+require("projectionizer")
 require("commandwindow")
 require("theme")
 require("lazy").setup("plugins", {
@@ -43,8 +44,6 @@ require("lazy").setup("plugins", {
 --   end
 -- })
 
-
--- require("termemulator")
 -- require("termbuf").setup({
 -- })
 
