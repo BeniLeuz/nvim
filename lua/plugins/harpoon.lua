@@ -7,7 +7,6 @@ return {
 
     -- REQUIRED
     harpoon:setup({
-
       settings = {
         save_on_toggle = true,
         select_with_nil = true
@@ -22,9 +21,11 @@ return {
     vim.keymap.set({ "n", "t" }, "<C-k>", function() harpoon:list():select(3) end)
     vim.keymap.set({ "n", "t" }, "<C-l>", function() harpoon:list():select(4) end)
 
-    -- custom list for terms
-    ---@type HarpoonList
-    local term_list = harpoon:list("terms") -- note the : instead of .
+
+    -- make seperate lists depending on current tab directory
+    local function terminals()
+      return harpoon:list("terms::" .. vim.api.nvim_get_current_tabpage())
+    end
 
     local function create_terminal()
       vim.cmd("terminal")
@@ -34,6 +35,7 @@ return {
 
     ---@param index number: The index of the terminal to select.
     local function select_term(index)
+      local term_list = terminals()
       if index > term_list:length() then
         create_terminal()
         term_list:add()
@@ -43,6 +45,8 @@ return {
     end
 
     local function remove_closed_terms()
+      local term_list = terminals()
+
       for _, term in ipairs(term_list.items) do
         local bufnr = vim.fn.bufnr(term.value)
         if bufnr == -1 then
@@ -87,6 +91,6 @@ return {
       select_term(2)
     end)
 
-    vim.keymap.set({ "n", "t" }, "<C-g>", function() harpoon.ui:toggle_quick_menu(term_list) end)
+    vim.keymap.set({ "n", "t" }, "<C-g>", function() harpoon.ui:toggle_quick_menu(terminals()) end)
   end
 }
