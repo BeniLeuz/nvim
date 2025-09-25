@@ -63,3 +63,10 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 
 -- showing up diagnostics with newlines in a floating window
 vim.keymap.set({ "n" }, "<leader>cd", vim.diagnostic.open_float)
+
+
+-- tabbing around projects like this is emacs fr
+vim.keymap.set("n", "<M-1>", "<Cmd>tabn 1<CR>")
+vim.keymap.set("n", "<M-2>", "<Cmd>tabn 2<CR>")
+vim.keymap.set("n", "<M-3>", "<Cmd>tabn 3<CR>")
+vim.keymap.set("n", "<M-4>", "<Cmd>tabn 4<CR>")
