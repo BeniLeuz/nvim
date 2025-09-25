@@ -5,6 +5,30 @@
 -- in unnest you can not close child instance on git rebase -i therefore this would break it if added into unnest to
 -- close children after opening in the parent since i dont have context on how tf it opened nvim in vimenter of the child.
 
+
+
+-- vimenter mache depending if config file is set to unnest and close we close this nvim after tabnew on parent
+-- otherwise do nothing
+if not vim.env.NVIM then
+	return
+end
+
+local _, parent_chan = pcall(vim.fn.sockconnect, "pipe", vim.env.NVIM, { rpc = true })
+
+if not parent_chan or parent_chan == 0 then
+	io.stderr:write("Nvim failed to connect to parent")
+	vim.cmd("qall!")
+end
+
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+    vim.rpcrequest(parent_chan, "nvim_command", "tabnew " .. vim.api.nvim_buf_get_name(0))
+    vim.rpcrequest(parent_chan, "nvim_command", "tcd " .. vim.fn.getcwd())
+    vim.cmd(":q!")
+  end
+})
+
+
 local function term_intercept_cr()
   local line = vim.api.nvim_get_current_line()
 
@@ -34,4 +58,4 @@ local function term_intercept_cr()
   return vim.api.nvim_replace_termcodes("<C-C>", true, false, true)
 end
 
-vim.keymap.set("t", "<CR>", term_intercept_cr, { expr = true, noremap = true })
+-- vim.keymap.set("t", "<CR>", term_intercept_cr, { expr = true, noremap = true })
