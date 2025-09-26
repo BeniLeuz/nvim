@@ -1,7 +1,8 @@
 local function term_intercept_cr()
   local line = vim.api.nvim_get_current_line()
 
-  local s, e = line:find("nvim ")
+  -- THIS SPECIFICALLY BREAKS WITH NVIM IN PATH IF SPACES LIKE OSX LIKE .config nvim % in prompt lol
+  local s, e = line:find("nvim%s[^%%]")
 
   if not s then
     vim.env.CLOSE_UNNEST = 0
