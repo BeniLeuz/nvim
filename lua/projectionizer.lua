@@ -24,19 +24,15 @@ vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     vim.rpcrequest(parent_chan, "nvim_command", "tabnew " .. vim.api.nvim_buf_get_name(0))
     vim.rpcrequest(parent_chan, "nvim_command", "tcd " .. vim.fn.getcwd())
+    -- make sure the au group is gone always at this point
+    vim.rpcrequest(parent_chan, "nvim_command", "augroup UnnestAutoClose | autocmd! | augroup END")
 
     local close = vim.rpcrequest(parent_chan, "nvim_eval", 'getenv("CLOSE_UNNEST")')
     if close == "1" then
-      -- needs to be done since if we ever do nvim and then into nvim . it might still try to use the old ones so clear them!
-      vim.rpcrequest(parent_chan, "nvim_command", "augroup UnnestAutoClose | autocmd! | augroup END")
       vim.cmd(":q!")
       return
     end
-
-    -- create/clear the group first
-    vim.rpcrequest(parent_chan, "nvim_command", "augroup UnnestAutoClose | autocmd! | augroup END")
-
-    -- add the new TabClosed autocmd
+    -- now safely create a new autocmd for this child
     local tabpagenr = vim.rpcrequest(parent_chan, "nvim_call_function", "tabpagenr", {})
     local child_server = vim.v.servername
 
