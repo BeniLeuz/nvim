@@ -71,3 +71,6 @@ vim.keymap.set("n", "<leader>2", "<Cmd>tabn 2<CR>")
 vim.keymap.set("n", "<leader>3", "<Cmd>tabn 3<CR>")
 vim.keymap.set("n", "<leader>4", "<Cmd>tabn 4<CR>")
 vim.keymap.set("n", "<leader>w", "<Cmd>tabclose<CR>")
+-- move tabs
+vim.keymap.set("n", "<leader>h", function() vim.cmd("tabmove -1") end)
+vim.keymap.set("n", "<leader>l", function() vim.cmd("tabmove +1") end)

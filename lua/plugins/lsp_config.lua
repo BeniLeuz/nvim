@@ -30,6 +30,11 @@ return {
             capabilities = capabilities
           })
         end,
+        ["asm_lsp"] = function()
+          lspconfig.asm_lsp.setup {
+            capabilities = capabilities,
+          }
+        end,
         ["ts_ls"] = function()
           lspconfig.ts_ls.setup {
             capabilities = capabilities,
