@@ -21,6 +21,7 @@
   "nvim-lspconfig": { "branch": "master", "commit": "94dda50b2d9a29d0b76562a9027029538840e2d7" },
   "nvim-nio": { "branch": "master", "commit": "21f5324bfac14e22ba26553caf69ec76ae8a7662" },
   "nvim-treesitter": { "branch": "master", "commit": "0e21ee8df6235511c02bab4a5b391d18e165a58d" },
+  "oil.nvim": { "branch": "master", "commit": "919e155fdf38e9148cdb5304faaaf53c20d703ea" },
   "pathfinder.nvim": { "branch": "main", "commit": "62f8b40e083ce8e7b6b38ff4adfd9c7b987c7b48" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "1f08ed60cafc8f6168b72b80be2b2ea149813e55" },

@@ -11,7 +11,6 @@ local var_groups = {
   "@parameter", "@property", "@field", "@identifier"
 }
 
-
 for _, group in ipairs(type_groups) do
   vim.api.nvim_set_hl(0, group, type_color)
 end
