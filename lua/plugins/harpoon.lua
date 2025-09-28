@@ -81,15 +81,13 @@ return {
       end,
     })
 
-    vim.keymap.set({ "n", "t" }, "<C-b>", function()
-      select_term(1)
-    end)
+    vim.keymap.set({ "n" }, "<leader>h", function() select_term(1) end)
+    vim.keymap.set({ "n" }, "<leader>j", function() select_term(2) end)
+    vim.keymap.set({ "n" }, "<leader>k", function() select_term(3) end)
+    vim.keymap.set({ "n" }, "<leader>l", function() select_term(4) end)
 
     -- probably not the right keybind for this, since control -n goes back to next in terminal mode.. might be use ful
     -- to never need arrow functions tbh
-    vim.keymap.set({ "n", "t" }, "<C-n>", function()
-      select_term(2)
-    end)
 
     vim.keymap.set({ "n", "t" }, "<C-g>", function() harpoon.ui:toggle_quick_menu(terminals()) end)
   end
