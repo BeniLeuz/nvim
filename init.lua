@@ -33,7 +33,7 @@ require("theme")
 require("projectionizer")
 require("commandwindow")
 -- currently broken in nvim 12 not sure why just rewrite this XDDD
-require("plugins.editable_term")
+-- require("plugins.editable_term")
 require("plugins.harpoon")
 require("plugins.treesitter")
 require("plugins.telescope")
@@ -41,6 +41,8 @@ require("plugins.oil")
 require("plugins.autocomplete")
 require("plugins.lsp")
 require("plugins.neotest")
+
+require("termbuf").setup({})
 
 
 
