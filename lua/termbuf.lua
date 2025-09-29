@@ -16,6 +16,7 @@ end
 -- necessary for 'a' keybind or 'A' and stuff
 local function set_term_cursor(cursor_col)
   local buf = M.buffers[vim.api.nvim_get_current_buf()]
+  print(cursor_col - buf.prompt.col)
   local p = replace_term_codes(buf.keybinds.goto_startof_line) ..
       vim.fn['repeat'](replace_term_codes(buf.keybinds.move_char_forward),
         cursor_col - buf.prompt.col)
@@ -87,11 +88,11 @@ local function setup_cmds()
       local buf = M.buffers[args.buf]
 
       if start[1] ~= ent[1] then
-        vim.fn.chansend(vim.bo.channel, replace_term_codes('<C-C>'))
       elseif vim.v.event.operator == 'c' then
         local line = vim.api.nvim_get_current_line()
         line = line:sub(1, start[2]) .. line:sub(ent[2] + 2)
         buf.prompt.line = line:sub(buf.prompt.col + 1)
+        print("what a prompt line man " .. buf.prompt.line)
         -- update_line(args.buf, vim.bo.channel, line)
         if start[1] == ent[1] and start[2] == ent[2] then
           buf.prompt.cursor_col = start[2] - 1
@@ -298,7 +299,7 @@ M.setup = function(config)
   }
 
   M.default_keybinds = {
-    clear_line = '<C-u>',
+    clear_line = '<C-e><C-u>',
     move_char_forward = '<C-f>',
     goto_startof_line = '<C-a>',
   }
