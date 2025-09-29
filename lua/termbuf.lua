@@ -285,7 +285,9 @@ M.setup = function(config)
   M.buffers = {};
   M.prompts = config.prompts or {
     -- space needs to be included!!!
-    ['.*[$#%%][ ]?'] = {}
+    ['.*[$#%%][ ]'] = {},
+    ["%(%gdb%)[ ]"] = {},
+    ["^ghci>%s"] = {}
     -- todo
     -- not yet supported!
     -- if you want to add different keybinds for the a prompt
