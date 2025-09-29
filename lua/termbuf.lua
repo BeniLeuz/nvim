@@ -45,6 +45,9 @@ local function setup_keybinds(buffer)
     vim.cmd("startinsert")
   end, { buffer = buffer })
 
+  -- vim.keymap.set('n', 'i', function()
+  -- end, { pattern = M.buf_pattern})
+
   -- vim.keymap.set('n', 'I', function()
   -- end, { pattern = M.buf_pattern})
   --
@@ -74,6 +77,31 @@ x = 0;
 local function setup_cmds()
   local group = vim.api.nvim_create_augroup("termbuf-edit", {});
 
+  vim.api.nvim_create_autocmd('TextYankPost', {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      print("got int o yank post lol")
+      local start = vim.api.nvim_buf_get_mark(args.buf, '[')
+      local ent = vim.api.nvim_buf_get_mark(args.buf, ']')
+      local buf = M.buffers[args.buf]
+
+      if start[1] ~= ent[1] then
+        vim.fn.chansend(vim.bo.channel, replace_term_codes('<C-C>'))
+      elseif vim.v.event.operator == 'c' then
+        local line = vim.api.nvim_get_current_line()
+        line = line:sub(1, start[2]) .. line:sub(ent[2] + 2)
+        buf.prompt.line = line:sub(buf.prompt.col + 1)
+        -- update_line(args.buf, vim.bo.channel, line)
+        if start[1] == ent[1] and start[2] == ent[2] then
+          buf.prompt.cursor_col = start[2] - 1
+        else
+          buf.prompt.cursor_col = start[2]
+        end
+      end
+    end
+  })
+
   vim.api.nvim_create_autocmd("TextChanged", {
     pattern = M.buf_pattern,
     group = group,
@@ -92,6 +120,17 @@ local function setup_cmds()
       buf.prompt.line = line:sub(buf.prompt.col + 1)
     end
   })
+
+  y = 0
+  vim.api.nvim_create_autocmd("TextChangedT", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      y = y + 1
+      print("in textchanged trn: " .. y)
+    end
+  })
+
 
   -- vim.api.nvim_create_autocmd("TextYankPost", {
   --   pattern = M.buf_pattern,
@@ -149,6 +188,7 @@ local function setup_cmds()
       end
 
       update_line(buf)
+      print("got into it enter term lool")
       set_term_cursor(buf.prompt.cursor_col)
     end
   })
