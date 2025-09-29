@@ -1,8 +1,4 @@
-return {
-  'saghen/blink.cmp', -- optional: provides snippets for the snippet source
-  dependencies = { 'rafamadriz/friendly-snippets' },
-  tag = 'v1.0.0',
-  opts = {
+require("blink.cmp").setup({
     keymap = {
       preset = 'enter',
       ['<Tab>'] = {
@@ -80,6 +76,5 @@ return {
       }
     },
     fuzzy = { implementation = "prefer_rust_with_warning" },
-  },
-  opts_extend = { "sources.default" }
-}
+  }
+)

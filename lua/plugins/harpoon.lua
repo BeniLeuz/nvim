@@ -1,11 +1,5 @@
-return {
-  "ThePrimeagen/harpoon",
-  branch = "harpoon2",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  config = function()
     local harpoon = require("harpoon")
 
-    -- REQUIRED
     harpoon:setup({
       settings = {
         save_on_toggle = true,
@@ -86,9 +80,5 @@ return {
     vim.keymap.set({ "n" }, "<leader>k", function() select_term(3) end)
     vim.keymap.set({ "n" }, "<leader>l", function() select_term(4) end)
 
-    -- probably not the right keybind for this, since control -n goes back to next in terminal mode.. might be use ful
-    -- to never need arrow functions tbh
-
     vim.keymap.set({ "n", "t" }, "<C-g>", function() harpoon.ui:toggle_quick_menu(terminals()) end)
-  end
-}
+

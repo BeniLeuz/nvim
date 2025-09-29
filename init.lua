@@ -1,51 +1,48 @@
-local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  }
-end
+vim.pack.add({
+  { src = "https://github.com/habamax/vim-polar" },
+  { src = "https://github.com/nvim-lua/plenary.nvim" },
+  { src = "https://github.com/ThePrimeagen/harpoon",                     version = "harpoon2" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+  { src = "https://github.com/nvim-telescope/telescope.nvim" },
+  { src = "https://github.com/nvim-telescope/telescope-fzf-native.nvim" },
+  { src = "https://github.com/stevearc/oil.nvim" },
+  { src = "https://github.com/rafamadriz/friendly-snippets" },
+  { src = "https://github.com/Saghen/blink.cmp",                         version = "v1.0.0" },
+  { src = "https://github.com/neovim/nvim-lspconfig" },
+  { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+  { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/xb-bx/editable-term.nvim" },
 
-vim.opt.rtp:prepend(lazypath)
+  -- neotest
+  -- INFO: needs to be ran to download junit console
+  -- :NeotestJava setup
+  { src = "https://github.com/nvim-neotest/nvim-nio" },
+  { src = "https://github.com/antoinemadec/FixCursorHold.nvim" },
+  { src = "https://github.com/alfaix/neotest-gtest" },
+  { src = "https://github.com/mfussenegger/nvim-jdtls" },
+  { src = "https://github.com/mfussenegger/nvim-dap" },
+  { src = "https://github.com/rcarriga/nvim-dap-ui" },
+  { src = "https://github.com/theHamsta/nvim-dap-virtual-text" },
+  { src = "https://github.com/rcasia/neotest-java" },
+  { src = "https://github.com/nvim-neotest/neotest" },
+})
 
 require("vim-options")
 require("vim-remaps")
+require("theme")
 require("projectionizer")
 require("commandwindow")
-require("theme")
-require("lazy").setup("plugins", {
-  change_detection = { notify = false }
-})
-
--- this is only because peb is not a real file. its fake
--- vim.filetype.add({
---   extension = {
---     peb = "htmldjango",
---   },
--- })
+-- currently broken in nvim 12 not sure why just rewrite this XDDD
+require("plugins.editable_term")
+require("plugins.harpoon")
+require("plugins.treesitter")
+require("plugins.telescope")
+require("plugins.oil")
+require("plugins.autocomplete")
+require("plugins.lsp")
+require("plugins.neotest")
 
 
--- local function term_codes(str) return vim.api.nvim_replace_termcodes(str, true, false, true) end
---
--- vim.api.nvim_create_autocmd("TermOpen", {
---     callback = function(args)
---     local buf = args.buf
---     local chan = vim.b[buf].terminal_job_id
---     vim.keymap.set('n', '<leader>t',
---       function()
---         vim.fn.chansend(chan, term_codes('<C-a>'))
---         vim.fn.chansend(chan, term_codes('<C-f><C-f>'))
---         vim.fn.chansend(chan, term_codes('<C-a>'))
---       end, { buffer = buf })
---   end
--- })
 
--- require("termbuf").setup({
--- })
-
--- theme for printing white background uncomment when needed
+-- for printing
 -- vim.cmd("colorscheme polar");

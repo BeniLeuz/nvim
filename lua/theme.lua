@@ -61,3 +61,4 @@ function _G.custom_tabline()
 end
 
 vim.o.tabline = "%!v:lua.custom_tabline()"
+

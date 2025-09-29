@@ -48,3 +48,4 @@ augroup END
     vim.rpcrequest(parent_chan, "nvim_command", cmd)
   end
 })
+

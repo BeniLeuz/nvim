@@ -51,3 +51,4 @@ vim.api.nvim_create_autocmd("CmdwinEnter", {
       { buffer = 0 })
   end
 })
+
