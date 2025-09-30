@@ -11,6 +11,7 @@ vim.pack.add({
   { src = "https://github.com/neovim/nvim-lspconfig" },
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
   { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/chomosuke/term-edit.nvim", version = "v1.4.0" },
   -- neotest
   -- INFO: needs to be ran to download junit console
   -- :NeotestJava setup
@@ -38,9 +39,12 @@ require("plugins.telescope")
 require("plugins.oil")
 require("plugins.autocomplete")
 require("plugins.lsp")
+require("plugins.term-edit")
+
+
 require("plugins.neotest")
 
-require("termbuf").setup({})
+-- require("termbuf").setup({})
 
 
 
