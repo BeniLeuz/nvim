@@ -16,7 +16,6 @@ end
 -- necessary for 'a' keybind or 'A' and stuff
 local function set_term_cursor(cursor_col)
   local buf = M.buffers[vim.api.nvim_get_current_buf()]
-  print(cursor_col - buf.prompt.col)
   local p = replace_term_codes(buf.keybinds.goto_startof_line) ..
       vim.fn['repeat'](replace_term_codes(buf.keybinds.move_char_forward),
         cursor_col - buf.prompt.col)
@@ -26,7 +25,6 @@ end
 -- todo: can we do this without flickering? at all?
 -- like maybe in one function call will be faster and better? but i dont think that matters at all but atleast try it out man
 local function update_line(buf)
-  print("got into update line with: " .. buf.prompt.line .. "end")
   local err_clear = clear_line(buf)
   local err_insert = insert_line(buf)
 
@@ -74,7 +72,6 @@ local function setup_keybinds(buffer)
   -- end, { pattern = M.buf_pattern })
 end
 
-x = 0;
 local function setup_cmds()
   local group = vim.api.nvim_create_augroup("termbuf-edit", {});
 
@@ -82,17 +79,16 @@ local function setup_cmds()
     pattern = M.buf_pattern,
     group = group,
     callback = function(args)
-      print("got int o yank post lol")
       local start = vim.api.nvim_buf_get_mark(args.buf, '[')
       local ent = vim.api.nvim_buf_get_mark(args.buf, ']')
       local buf = M.buffers[args.buf]
+
 
       if start[1] ~= ent[1] then
       elseif vim.v.event.operator == 'c' then
         local line = vim.api.nvim_get_current_line()
         line = line:sub(1, start[2]) .. line:sub(ent[2] + 2)
         buf.prompt.line = line:sub(buf.prompt.col + 1)
-        print("what a prompt line man " .. buf.prompt.line)
         -- update_line(args.buf, vim.bo.channel, line)
         if start[1] == ent[1] and start[2] == ent[2] then
           buf.prompt.cursor_col = start[2] - 1
@@ -114,42 +110,8 @@ local function setup_cmds()
       if (buf.prompt.col == nil) then
         return
       end
-      x = x + 1
-      print("changed " .. x)
       local line = vim.api.nvim_get_current_line()
-      print("changed into" .. line .. "end")
       buf.prompt.line = line:sub(buf.prompt.col + 1)
-    end
-  })
-
-  y = 0
-  vim.api.nvim_create_autocmd("TextChangedT", {
-    pattern = M.buf_pattern,
-    group = group,
-    callback = function(args)
-      y = y + 1
-      print("in textchanged trn: " .. y)
-    end
-  })
-
-
-  -- vim.api.nvim_create_autocmd("TextYankPost", {
-  --   pattern = M.buf_pattern,
-  --   group = group,
-  --   callback = function(args)
-  --     local buf = M.buffers[args.buf]
-  --     buf.textyankpost = true
-  --   end
-  -- })
-
-  vim.api.nvim_create_autocmd("TermResponse", {
-    pattern = M.buf_pattern,
-    group = group,
-    callback = function(args)
-      local cursor = vim.api.nvim_win_get_cursor(0)
-      print("termresponse lol")
-      print("cursor: " .. tostring(cursor[1]))
-      print("cursor: " .. tostring(cursor[2]))
     end
   })
 
@@ -163,16 +125,6 @@ local function setup_cmds()
   -- You can configure your shell "rc" (e.g. ~/.bashrc) to emit OSC 133 sequences,
   -- or your terminal may attempt to do it for you (assuming your shell config
   -- doesn't interfere).
-  vim.api.nvim_create_autocmd("TermRequest", {
-    pattern = M.buf_pattern,
-    group = group,
-    callback = function(args)
-      local cursor = vim.api.nvim_win_get_cursor(0)
-      print("termrequest lol never have i seen this yet btw")
-      print("cursor: " .. tostring(cursor[1]))
-      print("cursor: " .. tostring(cursor[2]))
-    end
-  })
 
   -- so currently termenter actually happens before nvim does its weird magic by rewriting the deleted line in a terminal
   -- therefore even if we clear line and then rewrite it afterwards nvim adds their weird spaces back into the line..
@@ -188,9 +140,12 @@ local function setup_cmds()
         return
       end
 
+
+
+      print("updating termenter btw pre")
       update_line(buf)
-      print("got into it enter term lool")
       set_term_cursor(buf.prompt.cursor_col)
+      print("updating termenter btw after")
     end
   })
 
@@ -200,17 +155,51 @@ local function setup_cmds()
     callback = function(args)
       local buf = M.buffers[args.buf]
       local cur = vim.api.nvim_win_get_cursor(0)
+      -- todo does this get called before termenter on ci"?
+      print("called with cursor: " .. cur[2])
       vim.bo.modifiable = buf.prompt.row == cur[1] and buf.prompt.col <= cur[2]
     end
   })
 
-  -- only used for finding the prompt cursor always on termleave
+  -- this triggers before a textyankpost. This is crucial since if we try to use ci" on an empty string no text
+  -- yank post will be triggered but this STILL will be triggered and we can catch the edge case here.
+  -- todo: we can probably just modifiable false here in the right occasion when cursor_col == nil
+  -- then we can do modifiable false and then feedkeys a/i to land at exact location
+  -- vim.api.nvim_create_autocmd("ModeChanged", {
+  --   group = group,
+  --   callback = function(args)
+  --     if vim.bo[args.buf].buftype == "terminal" then
+  --       print("Cursor moved in a terminal buffer")
+  --       local buf = M.buffers[args.buf]
+  --       if (buf.prompt.cursor_col == nil) then
+  --         vim.bo.modifiable = false
+  --       end
+  --     end
+  --   end
+  -- })
+
+  -- todo: modifiable false if prompt.cursor_col is null that itt will jump to the point it needs to go and then start insert manually after!
+  -- this way only ci" where prompt.cursor_col cant be set will get into this state. this kind of sucks but it is the
+  -- only way i see to trick the system
+
+  -- is this triggered even on non changing textyankpost?
+  -- vim.api.nvim_create_autocmd("TextChangedT", {
+  --   group = group,
+  --   callback = function(args)
+  --     local buf = M.buffers[args.buf]
+  --     local cursor = vim.api.nvim_win_get_cursor(0)[2]
+  --     print("textchangedt")
+  --     print(cursor)
+  --   end
+  -- })
+
   vim.api.nvim_create_autocmd("TermLeave", {
     pattern = M.buf_pattern,
     group = group,
     callback = function(args)
       local buf = M.buffers[args.buf]
       local cursor = vim.api.nvim_win_get_cursor(0)
+      vim.api.nvim_win_set_cursor(0, cursor);
       local line = vim.api.nvim_get_current_line()
 
       -- generally textchanged is always triggered when there is something on the line already
@@ -219,6 +208,7 @@ local function setup_cmds()
       for prompt, _ in pairs(M.prompts) do
         local s, e = line:find(prompt)
         if (s ~= nil) then
+          -- this overrides haha
           buf.prompt = {
             line = line:sub(e + 1),
             row = cursor[1],
