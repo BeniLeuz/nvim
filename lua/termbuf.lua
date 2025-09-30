@@ -1,5 +1,36 @@
 local M = {}
 
+-- keep track if we support multiline editing or not via command used.
+-- enabled in CR keybind for T mode and disabled on termenter again
+-- disabled also on termleave if we found a prompt to make sure to be insta editable again.
+-- this enables us to know on textchanged if this is false we are multilinin
+-- if we come into textchanged with true we actually make the line blank since we know this
+-- will be the state once we get out of execution
+-- questions:
+-- will textchanged be triggered on leaving term and when before we make sure its false again or?
+
+-- saves the line for later rewrite in termenter
+local function save_line(buf)
+  if (buf.command_used) then
+    vim.notify("command moment")
+    return
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(0, buf.prompt.row - 1, buf.prompt.row + 3, false)
+  local line = ""
+
+  vim.notify("multiline moment with line: " .. line)
+  for k, v in ipairs(lines) do
+    if (k == 1) then
+      line = lines[1]:sub(buf.prompt.col + 1)
+    else
+      line = line .. v
+    end
+  end
+
+  buf.prompt.line = line
+end
+
 local function replace_term_codes(keys)
   return vim.api.nvim_replace_termcodes(keys, true, false, true)
 end
@@ -35,9 +66,16 @@ local function update_line(buf)
 end
 
 local function setup_keybinds(buffer)
+  vim.keymap.set('t', '<CR>', function()
+    local buf = M.buffers[buffer]
+    local cursor = vim.api.nvim_win_get_cursor(0)
+    buf.prompt.line = ""
+    buf.prompt.row = cursor[1]
+    buf.command_used = true
+    return vim.api.nvim_replace_termcodes("<CR>", true, false, true)
+  end, { expr = true, buffer = buffer })
+
   vim.keymap.set('n', 'i', function()
-    -- TODO WHERE I STOPPED FOR NOW PLEASE DO NOT USE IT LIKE THIS JUST MAKE MULTIPLE FOR EACH BUFFER WHO CARES TOO MANY
-    -- KEYBINDS IS FINE IDK REALLY
     local buf = M.buffers[buffer]
     local cursor = vim.api.nvim_win_get_cursor(0)
     buf.prompt.cursor_col = cursor[2]
@@ -52,22 +90,14 @@ local function setup_keybinds(buffer)
   --
   -- vim.keymap.set('n', 'i', function()
   -- end, { pattern = M.buf_pattern})
-  --
-  -- todo: will need to be able to also shift+v+d without actually deleting the front line.
-  -- needs to be only line check and afterwards calculate.
-  -- text yank post will not be good enough tbh but maybe there just is not another way..
-  -- unless i actually remap a lot more than i thought necessary, i might just do.
-  --
 
   vim.keymap.set('n', 'a', function()
-    -- TODO WHERE I STOPPED FOR NOW PLEASE DO NOT USE IT LIKE THIS JUST MAKE MULTIPLE FOR EACH BUFFER WHO CARES TOO MANY
-    -- KEYBINDS IS FINE IDK REALLY
     local buf = M.buffers[buffer]
     local cursor = vim.api.nvim_win_get_cursor(0)
     buf.prompt.cursor_col = cursor[2] + 1
     vim.cmd("startinsert")
   end, { buffer = buffer })
-  --
+
   -- vim.keymap.set('n', 'dd', function()
   -- end, { pattern = M.buf_pattern })
 end
@@ -89,7 +119,6 @@ local function setup_cmds()
         local line = vim.api.nvim_get_current_line()
         line = line:sub(1, start[2]) .. line:sub(ent[2] + 2)
         buf.prompt.line = line:sub(buf.prompt.col + 1)
-        -- update_line(args.buf, vim.bo.channel, line)
         if start[1] == ent[1] and start[2] == ent[2] then
           buf.prompt.cursor_col = start[2] - 1
         else
@@ -110,21 +139,10 @@ local function setup_cmds()
       if (buf.prompt.col == nil) then
         return
       end
-      local line = vim.api.nvim_get_current_line()
-      buf.prompt.line = line:sub(buf.prompt.col + 1)
+
+      save_line(buf)
     end
   })
-
-  -- todo:
-  -- might be the reason iterm2 prompts get marked wrongly (its not)
-  -- Shells can emit semantic escape sequences (OSC 133) to mark where each prompt
-  -- from terminal.txt
-  -- starts and ends. The start of a prompt is marked by sequence `OSC 133 ; A ST`,
-  -- and the end by `OSC 133 ; B ST`.
-  --
-  -- You can configure your shell "rc" (e.g. ~/.bashrc) to emit OSC 133 sequences,
-  -- or your terminal may attempt to do it for you (assuming your shell config
-  -- doesn't interfere).
 
   -- so currently termenter actually happens before nvim does its weird magic by rewriting the deleted line in a terminal
   -- therefore even if we clear line and then rewrite it afterwards nvim adds their weird spaces back into the line..
@@ -139,13 +157,10 @@ local function setup_cmds()
       if (buf.prompt.row == nil or buf.prompt.col == nil) then
         return
       end
-
-
-
-      print("updating termenter btw pre")
+      vim.notify("setting it false in termenter")
+      buf.command_used = false
       update_line(buf)
       set_term_cursor(buf.prompt.cursor_col)
-      print("updating termenter btw after")
     end
   })
 
@@ -155,8 +170,14 @@ local function setup_cmds()
     callback = function(args)
       local buf = M.buffers[args.buf]
       local cur = vim.api.nvim_win_get_cursor(0)
-      print("called move with cursor: " .. cur[2])
-      vim.bo.modifiable = buf.prompt.row == cur[1] and buf.prompt.col <= cur[2]
+      if (buf.command_used) then
+        vim.bo.modifiable = false
+        return
+      end
+
+      if (buf.prompt.col ~= nil and buf.prompt.col ~= nil) then
+        vim.bo.modifiable = (buf.prompt.row == cur[1] and buf.prompt.col <= cur[2]) or buf.prompt.row < cur[1]
+      end
     end
   })
 
@@ -217,19 +238,23 @@ local function setup_cmds()
       local cursor = vim.api.nvim_win_get_cursor(0)
       vim.api.nvim_win_set_cursor(0, cursor);
       local line = vim.api.nvim_get_current_line()
+      vim.notify("termleave current line btw: " .. line)
 
-      -- generally textchanged is always triggered when there is something on the line already
-      -- sadly you cant be sure that this is the case always when the line is actually empty
-      -- therefore we need to set the line on termleave as well to be safe!
+      -- you never actually are able to move tyou current line outside of anything other than the prompt in terminal mode unless a program is running
+      -- there fore we just set the cursor to the row every single time on leave.
+      -- then check later in textchanged if we have a prompt or not. if our row is outside of any prompt we ran a program.
+      -- if its inside we went out while we were on a prompt and we need to save line
+
       for prompt, _ in pairs(M.prompts) do
         local s, e = line:find(prompt)
         if (s ~= nil) then
-          -- this overrides haha
           buf.prompt = {
             line = line:sub(e + 1),
             row = cursor[1],
             col = e
           }
+
+          buf.command_used = false
         end
       end
     end
@@ -248,6 +273,8 @@ local function setup()
     callback = function(args)
       -- setup default values
       M.buffers[args.buf] = {
+        -- tracks if we used a command to not do anything in textchanged
+        command_used = false,
         keybinds = M.default_keybinds,
         prompt = {
           line = nil,
@@ -256,12 +283,6 @@ local function setup()
           -- this represents where we want the term cursor to be after entering the terminal mode again
           -- we cannot do this inside 'a' keybinds directly since this will be overwriten by update_line call in termenter
           -- autocommand. we simply set it inside 'a' or 'i' keybinds and make sure we move it there once we go into term enter
-          -- TODO maybe the approach of doing it in textchanged and just knowing when terminal leaves or enters is better.
-          -- then we can just update the line every single time we leave the terminal and never when we enter.
-          -- this would also mean it updates the line every motion that changes anything which really is fine.
-          -- could also remove the spaces at the end issue since we then update the line on text changed always and not only on termenter override it.
-          -- therefore neovim would maybe not add the weird spaces in the end anymore since it does'nt go into terminal mode with aiddferent length that it should have.
-          -- then we can just setcursorpos directly in the keybinds, since it will not override it.
           cursor_col = nil
         },
       }
