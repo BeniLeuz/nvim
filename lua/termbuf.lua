@@ -13,7 +13,7 @@ local M = {}
 -- we dont editable do anything if we dont know the location
 --
 -- we reenable our editable as soon as we find another prompt location
--- this could be on textchangedT textchanged, termenter, termleave whatever
+-- this could be on textchangedT, textchanged, termleave whatever
 
 
 
@@ -173,6 +173,20 @@ local function setup_cmds()
       save_line(buf)
     end
   })
+  
+  vim.api.nvim_create_autocmd("TextChangedT", {
+    pattern = M.buf_pattern,
+    group = group,
+    callback = function(args)
+      local buf = M.buffers[args.buf]
+
+      -- if we didnt use command therefore we search for a fresh prompt location
+      if not buf.command_used then
+        local line = vim.api.nvim_get_current_line()
+        print("current line in textchangedt")
+      end
+    end
+  })
 
   -- so currently termenter actually happens before nvim does its weird magic by rewriting the deleted line in a terminal
   -- therefore even if we clear line and then rewrite it afterwards nvim adds their weird spaces back into the line..
@@ -248,17 +262,6 @@ local function setup_cmds()
   -- todo: modifiable false if prompt.cursor_col is null that itt will jump to the point it needs to go and then start insert manually after!
   -- this way only ci" where prompt.cursor_col cant be set will get into this state. this kind of sucks but it is the
   -- only way i see to trick the system
-
-  -- is this triggered even on non changing textyankpost?
-  -- vim.api.nvim_create_autocmd("TextChangedT", {
-  --   group = group,
-  --   callback = function(args)
-  --     local buf = M.buffers[args.buf]
-  --     local cursor = vim.api.nvim_win_get_cursor(0)[2]
-  --     print("textchangedt")
-  --     print(cursor)
-  --   end
-  -- })
 
   vim.api.nvim_create_autocmd("TermLeave", {
     pattern = M.buf_pattern,
