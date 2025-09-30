@@ -173,7 +173,7 @@ local function setup_cmds()
       save_line(buf)
     end
   })
-  
+
   vim.api.nvim_create_autocmd("TextChangedT", {
     pattern = M.buf_pattern,
     group = group,
@@ -183,7 +183,18 @@ local function setup_cmds()
       -- if we didnt use command therefore we search for a fresh prompt location
       if not buf.command_used then
         local line = vim.api.nvim_get_current_line()
-        print("current line in textchangedt")
+        local cursor = vim.api.nvim_win_get_cursor(0)
+
+        for prompt, _ in pairs(M.prompts) do
+          local s, e = line:find(prompt)
+          if (s ~= nil) then
+            buf.prompt.line = line:sub(e + 1)
+            buf.prompt.row = cursor[1]
+            buf.prompt.col = e
+          end
+        end
+
+        buf.command_used = false
       end
     end
   })
@@ -219,7 +230,7 @@ local function setup_cmds()
         return
       end
 
-      if (buf.prompt.col ~= nil and buf.prompt.col ~= nil) then
+      if (buf.prompt.col ~= nil and buf.prompt.row ~= nil) then
         vim.bo.modifiable = (buf.prompt.row == cur[1] and buf.prompt.col <= cur[2]) or buf.prompt.row < cur[1]
       end
     end
@@ -273,7 +284,6 @@ local function setup_cmds()
       local line = vim.api.nvim_get_current_line()
       vim.notify("termleave current line btw: " .. line)
 
-      local found = false
       for prompt, _ in pairs(M.prompts) do
         local s, e = line:find(prompt)
         if (s ~= nil) then
