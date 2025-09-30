@@ -1,5 +1,31 @@
 local M = {}
 
+-- NOTES
+-- how do we know after a command when we should reingage our editable-multiline
+-- after a command we need to find a new prompt
+--
+-- where do we find the prompt
+-- either in termleave, or termenter
+--
+--
+-- maybe try an approach like this:
+-- on each command we lose the prompt location
+-- we dont editable do anything if we dont know the location
+--
+-- we reenable our editable as soon as we find another prompt location
+-- this could be on textchangedT textchanged, termenter, termleave whatever
+
+
+
+
+
+
+
+
+
+
+
+
 -- keep track if we support multiline editing or not via command used.
 -- enabled in CR keybind for T mode and disabled on termenter again
 -- disabled also on termleave if we found a prompt to make sure to be insta editable again.
@@ -29,8 +55,6 @@ end
 local function save_line(buf)
   if (buf.command_used) then
     vim.notify("command moment")
-    -- make sure to block the multiline of termenter
-    buf.textchanged_with_command = true
     return
   end
 
@@ -256,17 +280,9 @@ local function setup_cmds()
             col = e
           }
 
-          found = true
           buf.command_used = false
         end
       end
-
-
-      -- if we didnt use a command beforehand and the line was empty we expect it to be multiline and not in a command!
-      if (buf.command_used == false and found == false and not buf.textchanged_with_command) then
-        buf.prompt.line = get_multiline(buf)
-      end
-      buf.textchanged_with_command = false
     end
   })
 end
@@ -283,8 +299,6 @@ local function setup()
     callback = function(args)
       -- setup default values
       M.buffers[args.buf] = {
-        -- tracks if we used a command to not do anything in textchanged
-        textchanged_with_command = false,
         command_used = false,
         keybinds = M.default_keybinds,
         prompt = {
