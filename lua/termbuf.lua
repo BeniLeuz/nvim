@@ -155,8 +155,7 @@ local function setup_cmds()
     callback = function(args)
       local buf = M.buffers[args.buf]
       local cur = vim.api.nvim_win_get_cursor(0)
-      -- todo does this get called before termenter on ci"?
-      print("called with cursor: " .. cur[2])
+      print("called move with cursor: " .. cur[2])
       vim.bo.modifiable = buf.prompt.row == cur[1] and buf.prompt.col <= cur[2]
     end
   })
@@ -169,10 +168,27 @@ local function setup_cmds()
   --   group = group,
   --   callback = function(args)
   --     if vim.bo[args.buf].buftype == "terminal" then
-  --       print("Cursor moved in a terminal buffer")
   --       local buf = M.buffers[args.buf]
-  --       if (buf.prompt.cursor_col == nil) then
+  --
+  --       if buf.prompt.cursor_col == nil then
+  --         -- Save old error writer
+  --         local old_err_write = vim.api.nvim_err_write
+  --         vim.api.nvim_err_write = function(_) end
+  --
+  --         -- Flip modifiable off (cancels ci" etc.)
   --         vim.bo.modifiable = false
+  --         buf.prompt.cursor_col = vim.api.nvim_win_get_cursor(0)
+  --
+  --         -- Restore error handler in the next tick
+  --         vim.schedule(function()
+  --           vim.api.nvim_err_write = old_err_write
+  --
+  --           vim.api.nvim_feedkeys(
+  --             vim.api.nvim_replace_termcodes("i", true, false, true),
+  --             "n", -- non-remappable
+  --             false -- don't wait for input
+  --           )
+  --         end)
   --       end
   --     end
   --   end
