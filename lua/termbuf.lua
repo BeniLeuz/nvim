@@ -9,13 +9,7 @@ local M = {}
 -- questions:
 -- will textchanged be triggered on leaving term and when before we make sure its false again or?
 
--- saves the line for later rewrite in termenter
-local function save_line(buf)
-  if (buf.command_used) then
-    vim.notify("command moment")
-    return
-  end
-
+local function get_multiline(buf)
   local lines = vim.api.nvim_buf_get_lines(0, buf.prompt.row - 1, buf.prompt.row + 3, false)
   local line = ""
 
@@ -28,7 +22,19 @@ local function save_line(buf)
     end
   end
 
-  buf.prompt.line = line
+  return line
+end
+
+-- saves the line for later rewrite in termenter
+local function save_line(buf)
+  if (buf.command_used) then
+    vim.notify("command moment")
+    -- make sure to block the multiline of termenter
+    buf.textchanged_with_command = true
+    return
+  end
+
+  buf.prompt.line = get_multiline(buf)
 end
 
 local function replace_term_codes(keys)
@@ -240,11 +246,7 @@ local function setup_cmds()
       local line = vim.api.nvim_get_current_line()
       vim.notify("termleave current line btw: " .. line)
 
-      -- you never actually are able to move tyou current line outside of anything other than the prompt in terminal mode unless a program is running
-      -- there fore we just set the cursor to the row every single time on leave.
-      -- then check later in textchanged if we have a prompt or not. if our row is outside of any prompt we ran a program.
-      -- if its inside we went out while we were on a prompt and we need to save line
-
+      local found = false
       for prompt, _ in pairs(M.prompts) do
         local s, e = line:find(prompt)
         if (s ~= nil) then
@@ -254,9 +256,17 @@ local function setup_cmds()
             col = e
           }
 
+          found = true
           buf.command_used = false
         end
       end
+
+
+      -- if we didnt use a command beforehand and the line was empty we expect it to be multiline and not in a command!
+      if (buf.command_used == false and found == false and not buf.textchanged_with_command) then
+        buf.prompt.line = get_multiline(buf)
+      end
+      buf.textchanged_with_command = false
     end
   })
 end
@@ -274,6 +284,7 @@ local function setup()
       -- setup default values
       M.buffers[args.buf] = {
         -- tracks if we used a command to not do anything in textchanged
+        textchanged_with_command = false,
         command_used = false,
         keybinds = M.default_keybinds,
         prompt = {
