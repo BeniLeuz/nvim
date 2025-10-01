@@ -54,9 +54,9 @@ end, { noremap = true, silent = true })
 --   desc = "Always open CmdWin+Insert for :" -- Description for :Telescope keymaps
 -- })
 
-vim.keymap.set('i', '<C-c>', "<Esc>")
-vim.keymap.set('v', '<C-c>', "<Esc>")
-vim.keymap.set('s', '<C-c>', "<Esc>")
+vim.keymap.set('i', '<C-f>', "<Esc>")
+vim.keymap.set('v', '<C-f>', "<Esc>")
+vim.keymap.set('s', '<C-f>', "<Esc>")
 
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
