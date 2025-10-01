@@ -181,21 +181,22 @@ local function setup_cmds()
       local buf = M.buffers[args.buf]
 
       -- if we didnt use command therefore we search for a fresh prompt location
-      if not buf.command_used then
-        local line = vim.api.nvim_get_current_line()
-        local cursor = vim.api.nvim_win_get_cursor(0)
+      local line = vim.api.nvim_get_current_line()
+      local cursor = vim.api.nvim_win_get_cursor(0)
 
-        for prompt, _ in pairs(M.prompts) do
-          local s, e = line:find(prompt)
-          if (s ~= nil) then
-            buf.prompt.line = line:sub(e + 1)
-            buf.prompt.row = cursor[1]
-            buf.prompt.col = e
-          end
+      for prompt, _ in pairs(M.prompts) do
+        local s, e = line:find(prompt)
+        if (s ~= nil) then
+          buf.prompt.line = line:sub(e + 1)
+          buf.prompt.row = cursor[1]
+          buf.prompt.col = e
+          buf.command_used = false
         end
-
-        buf.command_used = false
       end
+      print("texthangedt line: " .. line)
+      -- TODO: start searching from prompt location and stop trtying to sync it all
+      -- just set the prompt cursor here and make sure termleave always has the freshest fucking prompt.row
+      -- on commands like "clear"
     end
   })
 
