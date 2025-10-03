@@ -1,6 +1,8 @@
 require("mason").setup()
 require("mason-lspconfig").setup()
 
+vim.lsp.enable('sourcekit')
+
 vim.lsp.config("ts_ls", {
   -- Server-specific settings. See `:help lsp-quickstart`
   settings = {
