@@ -30,7 +30,9 @@ vim.keymap.set('x', '<leader>p', "\"_dP")
 vim.keymap.set('n', '<leader>y', "\"+y")
 vim.keymap.set('v', '<leader>y', "\"+y")
 
-
+-- TODO: if i notice i will mess up ctrl-f on editing terms and do ctrl-c i will change it via
+-- term open keymap specific for buffer in harpoon.lua and make sure it sends ctrl-c to term only
+-- in the noirmal mode
 -- go out of terminal mode easy access
 vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
 
