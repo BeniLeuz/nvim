@@ -32,8 +32,7 @@ vim.keymap.set('v', '<leader>y', "\"+y")
 
 
 -- go out of terminal mode easy access
-vim.keymap.set('t', '<C-f>', '<C-\\><C-n>')
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>')
+vim.keymap.set('t', '<C-c>', '<C-\\><C-n>')
 
 -- command line window remap magic. ctrl-f being a toggle now
 vim.keymap.set({ 'i', 'v', 'n' }, '<C-f>', function()
@@ -54,7 +53,7 @@ end, { noremap = true, silent = true })
 --   desc = "Always open CmdWin+Insert for :" -- Description for :Telescope keymaps
 -- })
 
-vim.keymap.set({'i','v','s'}, '<C-c>', '<Esc>', { noremap = true })
+vim.keymap.set({'i','v','s'}, '<C-f>', '<Esc>', { noremap = true })
 
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
