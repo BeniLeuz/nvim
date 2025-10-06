@@ -1,0 +1,32 @@
+{
+  "plugins": {
+    "FixCursorHold.nvim": [],
+    "blink.cmp": {
+      "version": "'v1.0.0'"
+    },
+    "friendly-snippets": [],
+    "harpoon": {
+      "version": "'harpoon2'"
+    },
+    "mason-lspconfig.nvim": [],
+    "mason.nvim": [],
+    "neotest": [],
+    "neotest-gtest": [],
+    "neotest-java": [],
+    "nvim-dap": [],
+    "nvim-dap-ui": [],
+    "nvim-dap-virtual-text": [],
+    "nvim-jdtls": [],
+    "nvim-lspconfig": [],
+    "nvim-nio": [],
+    "nvim-treesitter": [],
+    "oil.nvim": [],
+    "plenary.nvim": [],
+    "telescope-fzf-native.nvim": [],
+    "telescope.nvim": [],
+    "term-edit.nvim": {
+      "version": "'v1.4.0'"
+    },
+    "vim-polar": []
+  }
+}

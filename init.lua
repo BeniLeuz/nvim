@@ -26,6 +26,16 @@ vim.pack.add({
   { src = "https://github.com/nvim-neotest/neotest" },
 })
 
+-- vim.o.shell = '/bin/bash -l'
+-- vim.g.clipboard = {
+--     name = 'iTerm2 copy',
+--     copy = {
+--         ['+'] = {'bash', '-c', '~/.iterm2/it2copy>$SSH_TTY'},
+--         ['*'] = {'bash', '-c', '~/.iterm2/it2copy>$SSH_TTY'}
+--     },
+--     paste = {['+'] = 'true', ['*'] = 'true'}
+-- }
+
 require("vim-options")
 require("vim-remaps")
 require("theme")
