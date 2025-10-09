@@ -35,6 +35,11 @@ vim.api.nvim_set_hl(0, "NormalNC", { bg = "#000000" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "#000000" })
 vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000" })
 
+-- make dirs the same color as debian dirs
+-- printf "\033]4;12;?\033\\"
+-- got this via ansii escape codes :)
+vim.api.nvim_set_hl(0, "Directory", { fg = "#6871ff" })
+
 -- tabline
 vim.api.nvim_set_hl(0, "TabLine", { bg = "#ffffff", fg = "#000000" })
 vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#000000", fg = "#ffffff" })
@@ -43,13 +48,11 @@ vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#ffffff", fg = "#ffffff" })
 function _G.custom_tabline()
   local s = ""
   for i = 1, vim.fn.tabpagenr("$") do
-    -- Highlight active/inactive tab
     if i == vim.fn.tabpagenr() then
       s = s .. "%#TabLineSel#"
     else
       s = s .. "%#TabLine#"
     end
-
     local cwd = vim.fn.getcwd(-1, i)
     cwd = vim.fn.fnamemodify(cwd, ":t")
     s = s .. " " .. cwd .. " "
