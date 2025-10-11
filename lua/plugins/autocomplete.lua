@@ -21,9 +21,6 @@ require("blink.cmp").setup({
           },
         },
       },
-      trigger = {
-        show_in_snippet = false,
-      },
       documentation = {
         auto_show = true,
       },
