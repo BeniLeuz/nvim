@@ -13,3 +13,5 @@ configs.setup({
   auto_install = true,
 })
 
+-- Make sure both languages are recognized
+vim.treesitter.language.register("gotmpl", "html")

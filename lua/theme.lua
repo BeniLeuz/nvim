@@ -37,13 +37,14 @@ vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000" })
 
 -- make dirs the same color as debian dirs
 -- printf "\033]4;12;?\033\\"
--- got this via ansii escape codes :)
 vim.api.nvim_set_hl(0, "Directory", { fg = "#6871ff" })
 
 -- tabline
 vim.api.nvim_set_hl(0, "TabLine", { bg = "#ffffff", fg = "#000000" })
 vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#000000", fg = "#ffffff" })
 vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#ffffff", fg = "#ffffff" })
+
+
 
 function _G.custom_tabline()
   local s = ""
