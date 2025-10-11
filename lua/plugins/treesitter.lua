@@ -13,5 +13,12 @@ configs.setup({
   auto_install = true,
 })
 
+
+vim.filetype.add({
+  extension = {
+    html = "html",
+  },
+})
+
 -- Make sure both languages are recognized
 vim.treesitter.language.register("gotmpl", "html")
