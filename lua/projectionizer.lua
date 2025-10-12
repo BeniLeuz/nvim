@@ -39,7 +39,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 
     local cmd = string.format([[
 augroup UnnestAutoClose
-  autocmd TabClosed * if expand("<afile>") == "%d"
+  autocmd TabClosed * ++once if expand("<afile>") == "%d"
     call rpcnotify(sockconnect('pipe', '%s', #{ rpc: v:true }), 'nvim_command', 'quitall!')
   endif
 augroup END
