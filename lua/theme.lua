@@ -40,11 +40,9 @@ vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000" })
 vim.api.nvim_set_hl(0, "Directory", { fg = "#6871ff" })
 
 -- tabline
-vim.api.nvim_set_hl(0, "TabLine", { bg = "#ffffff", fg = "#000000" })
-vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#000000", fg = "#ffffff" })
-vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#ffffff", fg = "#ffffff" })
-
-
+vim.api.nvim_set_hl(0, "TabLine", { bg = "#1a1a1a", fg = "#666666" })      -- inactive: dark gray
+vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#ffffff", fg = "#000000", bold = true })  -- active: white bg, black text
+vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#000000" })
 
 function _G.custom_tabline()
   local s = ""
