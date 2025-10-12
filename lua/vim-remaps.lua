@@ -66,6 +66,14 @@ vim.keymap.set({ "n" }, "<leader>cd", vim.diagnostic.open_float)
 
 -- tabbing around projects like this is emacs fr
 vim.keymap.set("n", "<leader>1", "<Cmd>tabn 1<CR>")
+
+-- could map this via sending esc + ^[1 sequence in iterm keybinds
+-- maybe one day lets see if i can work with only nvim tabs froim now on then i might
+-- legit switch to only using nvim and also rebinding cmd+t/w and stuff
+-- for i = 1, 9 do
+--   vim.keymap.set({'n', 'i', 'v', 't', 'c'}, '<M-' .. i .. '>', '<Cmd>tabn ' .. i .. '<CR>', { desc = 'Go to tab ' .. i })
+-- end
+
 vim.keymap.set("n", "<leader>2", "<Cmd>tabn 2<CR>")
 vim.keymap.set("n", "<leader>3", "<Cmd>tabn 3<CR>")
 vim.keymap.set("n", "<leader>4", "<Cmd>tabn 4<CR>")
