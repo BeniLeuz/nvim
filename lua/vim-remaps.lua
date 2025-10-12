@@ -75,7 +75,12 @@ for i = 1, 9 do
     { desc = 'Go to tab ' .. i })
 end
 vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-w>', '<Cmd>tabclose<CR>', { desc = 'Close tab' })
-vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-t>', '<Cmd>tabnew | tcd ~ | term<CR>', { desc = 'open fresh term' })
+vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-t>', function()
+  vim.cmd('tabnew')
+  vim.cmd('tcd ~')
+  vim.cmd('term')
+  vim.cmd('startinsert')
+end, { desc = 'open fresh term in home' })
 
 vim.keymap.set("n", "<leader>2", "<Cmd>tabn 2<CR>")
 vim.keymap.set("n", "<leader>3", "<Cmd>tabn 3<CR>")
