@@ -55,7 +55,7 @@ end, { noremap = true, silent = true })
 --   desc = "Always open CmdWin+Insert for :" -- Description for :Telescope keymaps
 -- })
 
-vim.keymap.set({'i','v','s'}, '<C-f>', '<Esc>', { noremap = true })
+vim.keymap.set({ 'i', 'v', 's' }, '<C-f>', '<Esc>', { noremap = true })
 
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
@@ -70,9 +70,12 @@ vim.keymap.set("n", "<leader>1", "<Cmd>tabn 1<CR>")
 -- could map this via sending esc + ^[1 sequence in iterm keybinds
 -- maybe one day lets see if i can work with only nvim tabs froim now on then i might
 -- legit switch to only using nvim and also rebinding cmd+t/w and stuff
--- for i = 1, 9 do
---   vim.keymap.set({'n', 'i', 'v', 't', 'c'}, '<M-' .. i .. '>', '<Cmd>tabn ' .. i .. '<CR>', { desc = 'Go to tab ' .. i })
--- end
+for i = 1, 9 do
+  vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-' .. i .. '>', '<Cmd>tabn ' .. i .. '<CR>',
+    { desc = 'Go to tab ' .. i })
+end
+vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-w>', '<Cmd>tabclose<CR>', { desc = 'Close tab' })
+vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-t>', '<Cmd>tabnew | tcd ~ | term<CR>', { desc = 'open fresh term' })
 
 vim.keymap.set("n", "<leader>2", "<Cmd>tabn 2<CR>")
 vim.keymap.set("n", "<leader>3", "<Cmd>tabn 3<CR>")
