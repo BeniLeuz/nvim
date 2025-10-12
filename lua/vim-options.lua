@@ -11,6 +11,8 @@ vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
 vim.opt.ruler = false
 vim.opt.showcmd = false
 vim.opt.showmode = false
+vim.opt.cmdheight = 0
+
 
 
 -- info: packadd termdebug
