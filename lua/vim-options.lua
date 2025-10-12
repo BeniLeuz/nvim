@@ -7,6 +7,10 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
+vim.opt.ruler = false
+vim.opt.showcmd = false
+vim.opt.showmode = false
 
 
 -- info: packadd termdebug

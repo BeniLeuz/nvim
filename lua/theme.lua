@@ -40,9 +40,19 @@ vim.api.nvim_set_hl(0, "Pmenu", { bg = "#000000" })
 vim.api.nvim_set_hl(0, "Directory", { fg = "#6871ff" })
 
 -- tabline
-vim.api.nvim_set_hl(0, "TabLine", { bg = "#1a1a1a", fg = "#666666" })      -- inactive: dark gray
-vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#ffffff", fg = "#000000", bold = true })  -- active: white bg, black text
+-- vim.api.nvim_set_hl(0, "TabLine", { bg = "#1a1a1a", fg = "#666666" })      -- inactive: dark gray
+-- vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#ffffff", fg = "#000000", bold = true })  -- active: white bg, black text
+-- vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#000000" })
+
+vim.api.nvim_set_hl(0, "TabLine", { bg = "#000000", fg = "#ffffff" })
+vim.api.nvim_set_hl(0, "TabLineSel", { bg = "#ffffff", fg = "#000000", bold = true })
 vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#000000" })
+
+
+-- statusline (works because i set highlight groups in vimopts)
+vim.api.nvim_set_hl(0, "StatusLine", { fg = "#ffffff", bg = "#000000" })       -- white text on black
+vim.api.nvim_set_hl(0, "StatusModified", { fg = "#ffffff", bg = "#000000" })   -- orange on black
+vim.api.nvim_set_hl(0, "StatusRO", { fg = "#ffffff", bg = "#000000" })   -- orange on black
 
 function _G.custom_tabline()
   local s = ""
