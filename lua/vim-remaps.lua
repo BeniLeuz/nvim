@@ -74,6 +74,7 @@ for i = 1, 9 do
   vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-' .. i .. '>', '<Cmd>tabn ' .. i .. '<CR>',
     { desc = 'Go to tab ' .. i })
 end
+
 vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-w>', '<Cmd>tabclose<CR>', { desc = 'Close tab' })
 vim.keymap.set({ 'n', 'i', 'v', 't', 'c' }, '<M-t>', function()
   vim.cmd('tabnew')
