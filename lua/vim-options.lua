@@ -7,7 +7,18 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
+
+
+function _G.macro_recording()
+  local reg = vim.fn.reg_recording()
+  if reg == "" then
+    return ""
+  else
+    return "recording @" .. reg
+  end
+end
+
+vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r %=%{v:lua.macro_recording()}"
 vim.opt.ruler = false
 vim.opt.showcmd = false
 vim.opt.showmode = false
