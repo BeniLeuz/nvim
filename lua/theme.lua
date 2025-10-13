@@ -72,6 +72,12 @@ function _G.custom_tabline()
   return s
 end
 
+-- some fugitive styling
+vim.api.nvim_set_hl(0, "DiffDelete", {
+  bg = "#330000",
+})
 
+vim.api.nvim_set_hl(0, "diffRemoved", { link = "DiffDelete" })
 vim.o.tabline = "%!v:lua.custom_tabline()"
+vim.api.nvim_set_hl(0, "diffAdded", { link = "DiffAdd"})
 
