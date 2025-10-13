@@ -12,6 +12,7 @@ vim.pack.add({
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/chomosuke/term-edit.nvim",                version = "v1.4.0" },
+  { src = "https://github.com/tpope/vim-fugitive" },
   -- neotest
   -- INFO: needs to be ran to download junit console
   -- :NeotestJava setup
@@ -52,13 +53,13 @@ require("commandwindow")
 require("plugins.harpoon")
 require("plugins.treesitter")
 require("plugins.telescope")
+require("plugins.git")
 require("plugins.oil")
 require("plugins.autocomplete")
 require("plugins.lsp")
+require("plugins.git")
 require("plugins.term-edit")
 require("plugins.neotest")
-
-
 
 -- require("termbuf").setup({})
 -- for printing

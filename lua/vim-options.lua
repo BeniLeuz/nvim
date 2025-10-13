@@ -7,14 +7,21 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
-
-
-vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r %=%{v:lua.macro_recording()}"
+vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
 vim.opt.ruler = false
 vim.opt.showcmd = false
 vim.opt.showmode = false
-vim.opt.cmdheight = 0
+-- this if i ever go back to cmdline 0 and also missing, search results btw
+-- vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r %=%{v:lua.macro_recording()}"
+-- vim.opt.cmdheight = 0
+-- function _G.macro_recording()
+--   local reg = vim.fn.reg_recording()
+--   if reg == "" then
+--     return ""
+--   else
+--     return "recording @" .. reg
+--   end
+-- end
 -- info: packadd termdebug
 -- :Termdebug for vim gdb debugging yo
 
