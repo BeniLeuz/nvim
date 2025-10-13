@@ -9,14 +9,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 
-function _G.macro_recording()
-  local reg = vim.fn.reg_recording()
-  if reg == "" then
-    return ""
-  else
-    return "recording @" .. reg
-  end
-end
 
 vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r %=%{v:lua.macro_recording()}"
 vim.opt.ruler = false
@@ -43,7 +35,6 @@ vim.o.termguicolors = true
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve-t:ver25,r-cr-o:hor20"
 -- add when ready without tooltips
 vim.g.netrw_banner = 0
-
 -- auto shot diagnostics for error but rest show with <leader>cd for open_float()
 vim.diagnostic.config({
   virtual_text = {

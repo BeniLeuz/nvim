@@ -72,5 +72,14 @@ function _G.custom_tabline()
   return s
 end
 
+function _G.macro_recording()
+  local reg = vim.fn.reg_recording()
+  if reg == "" then
+    return ""
+  else
+    return "recording @" .. reg
+  end
+end
+
 vim.o.tabline = "%!v:lua.custom_tabline()"
 

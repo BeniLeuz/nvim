@@ -1,3 +1,5 @@
+vim.keymap.set({ 'i', 'v', 's' }, '<C-c>', '<Esc>', { noremap = true })
+
 -- vim remaps
 vim.keymap.set('n', '<Leader>pv', vim.cmd.Ex)
 
@@ -54,8 +56,6 @@ end, { noremap = true, silent = true })
 --   silent = true,                           -- Don't echo the simulated keys
 --   desc = "Always open CmdWin+Insert for :" -- Description for :Telescope keymaps
 -- })
-
-vim.keymap.set({ 'i', 'v', 's' }, '<C-f>', '<Esc>', { noremap = true })
 
 -- Literal search and replace
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])

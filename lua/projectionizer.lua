@@ -23,7 +23,14 @@ local _, parent_chan = pcall(vim.fn.sockconnect, "pipe", vim.env.NVIM, { rpc = t
 
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    vim.rpcrequest(parent_chan, "nvim_command", "tabnew " .. vim.api.nvim_buf_get_name(0))
+    if vim.o.diff then
+      local cmd_string = vim.v.argv[6]
+      local full_cmd = "tabnew | " .. cmd_string
+      vim.rpcrequest(parent_chan, "nvim_command", full_cmd)
+    else
+      vim.rpcrequest(parent_chan, "nvim_command", "tabnew " .. vim.api.nvim_buf_get_name(0))
+    end
+
     vim.rpcrequest(parent_chan, "nvim_command", "tcd " .. vim.fn.getcwd())
     -- make sure the au group is gone always at this point
     vim.rpcrequest(parent_chan, "nvim_command", "augroup UnnestAutoClose | autocmd! | augroup END")
@@ -38,14 +45,13 @@ vim.api.nvim_create_autocmd("VimEnter", {
     local child_server = vim.v.servername
 
     local cmd = string.format([[
-augroup UnnestAutoClose
-  autocmd TabClosed * ++once if expand("<afile>") == "%d"
-    call rpcnotify(sockconnect('pipe', '%s', #{ rpc: v:true }), 'nvim_command', 'quitall!')
-  endif
-augroup END
-]], tabpagenr, child_server)
+    augroup UnnestAutoClose
+      autocmd TabClosed * ++once if expand("<afile>") == "%d"
+        call rpcnotify(sockconnect('pipe', '%s', #{ rpc: v:true }), 'nvim_command', 'quitall!')
+      endif
+    augroup END
+    ]], tabpagenr, child_server)
 
     vim.rpcrequest(parent_chan, "nvim_command", cmd)
   end
 })
-

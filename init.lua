@@ -36,6 +36,13 @@ vim.pack.add({
 --     paste = {['+'] = 'true', ['*'] = 'true'}
 -- }
 
+-- add this to .gitconfig for git d -d main working as expected
+-- [diff]
+--   tool = nvim_difftool
+-- [difftool "nvim_difftool"]
+--     cmd = nvim -c \"set diff\" -c \"silent! DiffTool $LOCAL $REMOTE\"
+vim.cmd("packadd nvim.difftool")
+
 require("vim-options")
 require("vim-remaps")
 require("theme")
