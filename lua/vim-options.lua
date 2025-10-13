@@ -15,9 +15,6 @@ vim.opt.ruler = false
 vim.opt.showcmd = false
 vim.opt.showmode = false
 vim.opt.cmdheight = 0
-
-
-
 -- info: packadd termdebug
 -- :Termdebug for vim gdb debugging yo
 
@@ -28,13 +25,11 @@ vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.scrolloff = 8
 vim.o.wrap = false
-vim.o.fillchars='eob: '
+vim.o.fillchars = 'eob: '
 vim.o.winborder = 'rounded'
 -- needed for treesitter to highlight properly
 vim.o.termguicolors = true
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve-t:ver25,r-cr-o:hor20"
--- add when ready without tooltips
-vim.g.netrw_banner = 0
 -- auto shot diagnostics for error but rest show with <leader>cd for open_float()
 vim.diagnostic.config({
   virtual_text = {
