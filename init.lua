@@ -12,6 +12,7 @@ vim.pack.add({
   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
   { src = "https://github.com/mason-org/mason.nvim" },
   { src = "https://github.com/chomosuke/term-edit.nvim",                version = "v1.4.0" },
+  { src = "https://github.com/tpope/vim-fugitive" },
   -- neotest
   -- INFO: needs to be ran to download junit console
   -- :NeotestJava setup
@@ -56,16 +57,17 @@ require("plugins.oil")
 require("plugins.autocomplete")
 require("plugins.lsp")
 require("plugins.term-edit")
-
-
+require("plugins.git")
 require("plugins.neotest")
-
 -- require("termbuf").setup({})
-
-
-
 -- for printing
 -- vim.cmd("colorscheme polar");
+--
+--
+--
+--
+--
+--
 -- vim.keymap.set('n', '<leader>di', function()
 --   local remote_branch = vim.fn.system('git rev-parse --abbrev-ref @{upstream} 2>/dev/null'):gsub('\n', '')
 --   if remote_branch == '' then
