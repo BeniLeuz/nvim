@@ -16,4 +16,4 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 -- diff staged against head
 -- vim.keymap.set("n", "<leader>dh", ":Git difftool -y HEAD<CR>")
 -- diff all against upstream
-vim.keymap.set('n', '<leader>da', 'Git difftool -y @{upstream}')
+vim.keymap.set('n', '<leader>du', ':Git difftool -y @{upstream}<CR>')
