@@ -11,12 +11,9 @@
 
 -- overview
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
-
 -- diff unstaged against working dir
-vim.keymap.set("n", "<leader>da", ":Git difftool -y<CR>")
+-- vim.keymap.set("n", "<leader>da", ":Git difftool -y<CR>")
 -- diff staged against head
-vim.keymap.set("n", "<leader>dh", ":Git difftool -y HEAD<CR>")
--- diff against upstream
-vim.keymap.set('n', '<leader>du', function()
-  vim.cmd('Git difftool -y ' .. '@{upstream}..' .. vim.fn.FugitiveHead())
-end, { desc = 'Git diff against upstream' })
+-- vim.keymap.set("n", "<leader>dh", ":Git difftool -y HEAD<CR>")
+-- diff all against upstream
+vim.keymap.set('n', '<leader>da', 'Git difftool -y @{upstream}')
