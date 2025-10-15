@@ -18,6 +18,12 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 -- diff all against upstream in TABS
 -- vim.keymap.set('n', '<leader>du', ':Git difftool -y @{upstream}<CR>')
 
+
+local function is_difftool_qf()
+  local qf_list = vim.fn.getqflist({ title = 0 })
+  return qf_list.title and string.match(qf_list.title, 'difftool @') ~= nil
+end
+
 local function open_qf_diff()
   vim.cmd('.cc')
   vim.cmd('Gvdiffsplit @{upstream}')
@@ -43,9 +49,7 @@ vim.api.nvim_create_autocmd('FileType', {
     qf_mapping_set = true
 
     vim.keymap.set('n', '<CR>', function()
-      local qf_list = vim.fn.getqflist({ title = 0 })       -- Get current list each time
-
-      if not (qf_list.title and string.match(qf_list.title, 'difftool @')) then
+      if not is_difftool_qf() then
         vim.cmd('.cc')
         return
       end
@@ -59,8 +63,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.keymap.set('n', '[q', function()
-  local qf_list = vim.fn.getqflist({ title = 0 })
-  if qf_list.title and string.match(qf_list.title, 'difftool @') then
+  if is_difftool_qf() then
     local _, _ = pcall(function()
       vim.cmd('cprevious')
       vim.cmd('windo if &filetype != "qf" | execute "close" | endif')
@@ -72,8 +75,7 @@ vim.keymap.set('n', '[q', function()
 end)
 
 vim.keymap.set('n', ']q', function()
-  local qf_list = vim.fn.getqflist({ title = 0 })
-  if qf_list.title and string.match(qf_list.title, 'difftool @') then
+  if is_difftool_qf() then
     local ok, err = pcall(function()
       vim.cmd('cnext')
       vim.cmd('windo if &filetype != "qf" | execute "close" | endif')
