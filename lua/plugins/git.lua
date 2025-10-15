@@ -8,6 +8,11 @@
 -- I = interactive hunk by hunk adding removing etc
 -- cc = commit
 -- X = delete change
+-- in a gvdiffspit i can use
+-- do = diffobtain other side into mine
+-- dp = diff put mine into other so like unchange stuff
+-- ]q[q = jump quickfix
+-- [c]c = jump hunks in same file
 
 -- overview
 vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
