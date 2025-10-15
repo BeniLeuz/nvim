@@ -19,6 +19,13 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 -- vim.keymap.set('n', '<leader>du', ':Git difftool -y @{upstream}<CR>')
 
 
+-- if i EVER have issues with this implementation that are annoying just do this:
+-- i could also use opptionnset callback or sumn to only set this on diff buffers (pattern = diff)
+-- this would make it so i could take something riskier like dv
+-- IF I EVER HAVE ISSUES WITH THIS, DO THIS PLS THIS IMPLEMENTATION IS DISGUSTING
+-- vim.keymap.set("n", "dv", ":Gvdiffsplit<CR>")
+-- vim.keymap.set('n', '<leader>du', ":Git difftool @{upstream}<CR>")
+
 local function is_difftool_qf()
   local qf_list = vim.fn.getqflist({ title = 0 })
   return qf_list.title and string.match(qf_list.title, 'difftool @') ~= nil
