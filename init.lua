@@ -43,6 +43,7 @@ vim.pack.add({
 -- [difftool "nvim_difftool"]
 --     cmd = nvim -c \"set diff\" -c \"silent! DiffTool $LOCAL $REMOTE\"
 vim.cmd("packadd nvim.difftool")
+-- testing this now
 require("vim-options")
 require("vim-remaps")
 require("theme")
