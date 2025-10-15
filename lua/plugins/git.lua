@@ -42,7 +42,12 @@ end
 -- diff with a double view and quickfix
 vim.keymap.set('n', '<leader>du', function()
   vim.cmd('Git difftool @{upstream}')
-  open_qf_diff()
+  _, err = pcall(function()
+    open_qf_diff()
+  end)
+  if err then
+    vim.notify("No changes")
+  end
 end)
 
 
