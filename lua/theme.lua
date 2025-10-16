@@ -51,6 +51,7 @@ vim.api.nvim_set_hl(0, "TabLineFill", { bg = "#000000" })
 
 -- statusline (works because i set highlight groups in vimopts)
 vim.api.nvim_set_hl(0, "StatusLine", { fg = "#ffffff", bg = "#000000" })       -- white text on black
+vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#ffffff", bg = "#000000" })       -- when inactive so quikcfix
 vim.api.nvim_set_hl(0, "StatusModified", { fg = "#ffffff", bg = "#000000" })   -- orange on black
 vim.api.nvim_set_hl(0, "StatusRO", { fg = "#ffffff", bg = "#000000" })   -- orange on black
 

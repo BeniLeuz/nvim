@@ -65,6 +65,7 @@ local qf_mapping_set = false
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'qf',
   callback = function(args)
+    -- vim.o.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
     if qf_mapping_set then return end
     qf_mapping_set = true
 

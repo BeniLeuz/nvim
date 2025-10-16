@@ -7,10 +7,10 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
-vim.opt.ruler = false
-vim.opt.showcmd = false
-vim.opt.showmode = false
+vim.o.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r"
+vim.o.ruler = false
+vim.o.showcmd = false
+vim.o.showmode = false
 -- this if i ever go back to cmdline 0 and also missing, search results btw
 -- vim.opt.statusline = "%#StatusLine#%F %#StatusModified#%m %#StatusRO#%r %=%{v:lua.macro_recording()}"
 -- vim.opt.cmdheight = 0
