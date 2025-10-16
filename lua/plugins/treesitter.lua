@@ -20,5 +20,6 @@ vim.filetype.add({
   },
 })
 
+vim.treesitter.language.register("ruby", "crystal")
 -- Make sure both languages are recognized
 vim.treesitter.language.register("gotmpl", "html")
