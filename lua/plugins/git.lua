@@ -33,7 +33,7 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
 local function is_difftool_qf()
   local qf_list = vim.fn.getqflist({ title = 0 })
-  return qf_list.title and string.match(qf_list.title, 'difftool @') ~= nil
+  return qf_list.title and string.match(qf_list.title, 'difftool') ~= nil
 end
 
 local function open_qf_diff()
