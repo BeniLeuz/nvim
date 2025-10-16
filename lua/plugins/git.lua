@@ -44,7 +44,8 @@ local function open_qf_diff()
   else
     vim.cmd('Gvdiffsplit @{upstream}')
   end
-  vim.cmd('copen 10')
+  local height = math.floor(vim.o.lines / 3)
+  vim.cmd('copen ' .. height)
   vim.cmd('wincmd k')
   vim.cmd('wincmd l')
 end
