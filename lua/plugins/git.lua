@@ -33,12 +33,17 @@ vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
 
 local function is_difftool_qf()
   local qf_list = vim.fn.getqflist({ title = 0 })
-  return qf_list.title and string.match(qf_list.title, 'difftool') ~= nil
+  return qf_list.title and string.match(qf_list.title, 'tool') ~= nil
 end
 
 local function open_qf_diff()
   vim.cmd('.cc')
-  vim.cmd('Gvdiffsplit @{upstream}')
+  local qf_list = vim.fn.getqflist({ title = 0 })
+  if string.match(qf_list.title, 'mergetool') ~= nil then
+    vim.cmd('Gvdiffsplit!')
+  else
+    vim.cmd('Gvdiffsplit @{upstream}')
+  end
   vim.cmd('copen 10')
   vim.cmd('wincmd k')
   vim.cmd('wincmd l')
