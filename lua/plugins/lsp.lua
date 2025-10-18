@@ -95,8 +95,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					"sioyek",
           "--nofocus",
 					"--reuse-window",
-					"--execute-command",
-					"toggle_synctex",
+					"--execute-command", 
+          "turn_on_synctex",
 					"--inverse-search",
 					string.format(
 						'nvim --server %s --remote-send "<Cmd>edit %%1 | call cursor(%%2, 1)<CR>"',
