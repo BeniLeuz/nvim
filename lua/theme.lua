@@ -9,7 +9,7 @@ local colors = {
 
 
 local type_groups = {
-  "@type", "@type.builtin", "@type.definition",
+  "Type", "@type", "@type.builtin", "@type.definition",
   "@type.qualifier", "@namespace"
 }
 
