@@ -75,14 +75,17 @@ vim.lsp.config("texlab", {
 -- Lsp attach stuff for mostly latex
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
-		if vim.bo[args.buf].filetype == "tex" then
-			vim.keymap.set(
-				"n",
-				"<leader>pf",
-				"<Cmd>LspTexlabForward<CR>",
-				{ buffer = args.buf, desc = "LaTeX forward search" }
-			)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if not client and client.name ~= "texlab" then
+			return
 		end
+
+		vim.keymap.set(
+			"n",
+			"<leader>lf",
+			"<Cmd>LspTexlabForward<CR>",
+			{ buffer = args.buf, desc = "LaTeX forward search" }
+		)
 
 		-- Automatically setup inverse search in Sioyek when LSP attaches
 		vim.defer_fn(function()
@@ -90,6 +93,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			if vim.fn.filereadable(pdf) == 1 then
 				vim.fn.jobstart({
 					"sioyek",
+          "--nofocus",
 					"--reuse-window",
 					"--execute-command",
 					"toggle_synctex",
