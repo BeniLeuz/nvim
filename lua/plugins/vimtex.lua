@@ -39,23 +39,21 @@ vim.api.nvim_create_autocmd({ "CursorMoved" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+	pattern = "VimtexEventCompileSuccess",
+	callback = function()
+		local pdf = vim.fn.expand("%:p:r") .. ".pdf"
 
-
--- vim.api.nvim_create_autocmd("User", {
--- 	pattern = "VimtexEventCompileSuccess",
--- 	callback = function()
--- 		local pdf = vim.fn.expand("%:p:r") .. ".pdf"
---
--- 		vim.fn.jobstart({
--- 			"/Applications/sioyek.app/Contents/MacOS/sioyek", -- Absolute path
--- 			"--reuse-window",
--- 			"--nofocus",
--- 			"--execute-command",
--- 			"reload_no_flicker",
--- 			pdf,
--- 		}, { detach = true })
--- 	end,
--- })
+		vim.fn.jobstart({
+			"/Applications/sioyek.app/Contents/MacOS/sioyek", -- Absolute path
+			"--reuse-window",
+			"--nofocus",
+			"--execute-command",
+			"reload_no_flicker",
+			pdf,
+		}, { detach = true })
+	end,
+})
 
 -- -- Flicker-free reload on successful compilation
 -- vim.api.nvim_create_autocmd("User", {
