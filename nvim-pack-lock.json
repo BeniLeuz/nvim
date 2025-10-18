@@ -31,6 +31,10 @@
       "rev": "61b51c0",
       "src": "https://github.com/tpope/vim-fugitive"
     },
-    "vim-polar": []
+    "vim-polar": [],
+    "vimtex": {
+      "rev": "be9deac3",
+      "src": "https://github.com/lervag/vimtex"
+    }
   }
 }

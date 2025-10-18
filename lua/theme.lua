@@ -1,5 +1,12 @@
-local type_color = { fg = "#ff9e64" }
-local var_color = { fg = "#73daca" }
+local colors = {
+  type = "#ff9e64",      -- for @type
+  variable = "#73daca",  -- for @variable
+  function_ = "#729FCF", -- for @function
+  keyword = "#FFCF70",   -- for @keyword
+  string = "#B2DC7E",    -- for @string
+  comment = "#5C6370",   -- for @comment
+}
+
 
 local type_groups = {
   "@type", "@type.builtin", "@type.definition",
@@ -12,22 +19,22 @@ local var_groups = {
 }
 
 for _, group in ipairs(type_groups) do
-  vim.api.nvim_set_hl(0, group, type_color)
+  vim.api.nvim_set_hl(0, group, { fg = colors.type })
 end
 
 for _, group in ipairs(var_groups) do
-  vim.api.nvim_set_hl(0, group, var_color)
+  vim.api.nvim_set_hl(0, group, { fg = colors.variable })
 end
 
 -- html tag
-vim.api.nvim_set_hl(0, "@tag.html", { fg = "#729FCF" })
+vim.api.nvim_set_hl(0, "@tag.html", { fg = colors.function_ })
 -- because java is sus
-vim.api.nvim_set_hl(0, "@lsp.type.modifier.java", { fg = "#FFCF70" })
+vim.api.nvim_set_hl(0, "@lsp.type.modifier.java", { fg = colors.keyword })
 
 -- words like struct, class local function etc
-vim.api.nvim_set_hl(0, "Keyword", { fg = "#FFCF70" })
-vim.api.nvim_set_hl(0, "Function", { fg = "#729FCF" })
-vim.api.nvim_set_hl(0, "String", { fg = "#B2DC7E" })
+vim.api.nvim_set_hl(0, "Keyword", { fg = colors.keyword })
+vim.api.nvim_set_hl(0, "Function", { fg = colors.function_ })
+vim.api.nvim_set_hl(0, "String", { fg = colors.string })
 
 -- make it all black lmao
 vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
@@ -81,4 +88,3 @@ vim.api.nvim_set_hl(0, "DiffDelete", {
 vim.api.nvim_set_hl(0, "diffRemoved", { link = "DiffDelete" })
 vim.o.tabline = "%!v:lua.custom_tabline()"
 vim.api.nvim_set_hl(0, "diffAdded", { link = "DiffAdd"})
-

@@ -1,4 +1,5 @@
 vim.pack.add({
+  { src = "https://github.com/lervag/vimtex" },
   { src = "https://github.com/habamax/vim-polar" },
   { src = "https://github.com/nvim-lua/plenary.nvim" },
   { src = "https://github.com/ThePrimeagen/harpoon",                    version = "harpoon2" },
@@ -50,6 +51,7 @@ require("projectionizer")
 require("commandwindow")
 -- currently broken in nvim 12 not sure why just rewrite this XDDD
 -- require("plugins.editable_term")
+require("plugins.vimtex")
 require("plugins.harpoon")
 require("plugins.treesitter")
 require("plugins.telescope")

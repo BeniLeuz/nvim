@@ -33,7 +33,7 @@ vim.lsp.config("clangd", {
 })
 
 vim.lsp.config("html", {
-  filetypes = { 'html', 'markdown', 'htmldjango' },
+  filetypes = { 'html', 'markdown', 'htmldjango', 'eruby' },
   settings = {
     html = {
       format = { indentinnerhtml = true },
